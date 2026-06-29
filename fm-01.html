@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FM127.01HMZ</title>
+  <title>FM127.01HMZ &mdash; Tao ve cua ban</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link
     href="https://fonts.googleapis.com/css2?family=Space+Mono&family=Bad+Script&family=Press+Start+2P&display=swap"
@@ -753,11 +753,9 @@
       bottom: 60%;
       top: 25.5%;
     height: 10.5%;
-
       display: flex;
       align-items: flex-end;
       justify-content: center;
-
       overflow: visible;
       font-family: 'Bad Script', cursive;
       font-weight: 400;
@@ -1025,7 +1023,7 @@
             <div class="ticket-face-card back-face">
               <img src="images/MS-1.png"
                 alt="Mat sau ticket FM127.01HMZ" />
-              <div class="name-overlay" id="nameOverlay"><span id="nameOverlayText"></span></div>
+              <div class="name-overlay" id="nameOverlay"></div>
             </div>
           </div>
         </div>
@@ -1370,10 +1368,7 @@
           setTimeout(() => { myNameInput.style.outline = ''; }, 600);
           return;
         }
-        if (myNameOverlay) {
-          const spanEl = myNameOverlay.querySelector('span') || myNameOverlay;
-          spanEl.textContent = val;
-        }
+        if (myNameOverlay) myNameOverlay.textContent = val;
 
         // Reset flip về mặt trước NGAY KHI BẤM — trước khi clone được tạo
         const fi = document.getElementById('flipInner');
