@@ -755,20 +755,26 @@
       height: 10.5%;
 
       display: flex;
-      align-items: flex-end;
-      justify-content: center;
+      align-items: center;
+      justify-content: flex-start;
 
       overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
       font-family: 'Bad Script', cursive;
       font-weight: 400;
       letter-spacing: 0.01em;
       color: var(--blue);
-      text-align: center;
-      font-size: clamp(10px, 3.5cqw, 18px);
+      text-align: left;
+      font-size: clamp(8px, 2.8cqw, 15px);
+      line-height: 1;
+      padding-bottom: 0.5cqw;
+    }
 
-      padding-bottom: 0cqw;
+    .name-overlay span {
+      display: block;
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
 
     /* Drag hint */
@@ -776,8 +782,8 @@
       text-align: center;
       margin-top: 10px;
       margin-bottom: 14px;
-      font-size: clamp(9px, 2.5vw, 12px);
-      letter-spacing: clamp(0.5px, 0.3vw, 1.5px);
+      font-size: 10px;
+      letter-spacing: 1px;
       opacity: .55;
       font-family: 'Space Mono', monospace;
     }
@@ -1027,7 +1033,7 @@
             <div class="ticket-face-card back-face">
               <img src="images/MS-1.png"
                 alt="Mat sau ticket FM127.01HMZ" />
-              <div class="name-overlay" id="nameOverlay"></div>
+              <div class="name-overlay" id="nameOverlay"><span id="nameOverlayText"></span></div>
             </div>
           </div>
         </div>
@@ -1372,7 +1378,10 @@
           setTimeout(() => { myNameInput.style.outline = ''; }, 600);
           return;
         }
-        if (myNameOverlay) myNameOverlay.textContent = val;
+        if (myNameOverlay) {
+          const spanEl = myNameOverlay.querySelector('span') || myNameOverlay;
+          spanEl.textContent = val;
+        }
 
         // Reset flip về mặt trước NGAY KHI BẤM — trước khi clone được tạo
         const fi = document.getElementById('flipInner');
