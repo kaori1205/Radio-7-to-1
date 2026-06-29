@@ -748,16 +748,16 @@
 
     .name-overlay {
       position: absolute;
-      left: 10%;
-      width: 52%;
+      left: 13%;
+      width: 48%;
 
-      top: 25.5%;
-      height: 10.5%;
+      /* căn đáy trùng với đường chấm */
+      bottom: 69%;
+      height: 8%;
 
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       justify-content: flex-start;
-      padding-left: 5%;
 
       overflow: hidden;
       font-family: 'Bad Script', cursive;
@@ -765,8 +765,9 @@
       letter-spacing: 0.01em;
       color: var(--blue);
       text-align: left;
-      font-size: clamp(8px, 2.8cqw, 15px);
+      font-size: clamp(7px, 2.5cqw, 14px);
       line-height: 1;
+      padding-bottom: 0.8%;
     }
 
     .name-overlay span {
