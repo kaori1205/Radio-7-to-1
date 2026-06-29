@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RADIO 7 TO 1 — Schedule</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bad+Script&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/retro-computer" rel="stylesheet">
+  <style>
+    :root { --blue:#123685; --blue-deep:#0d2868; --cream:#fbf8f2; --white:#ffffff; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    html,body { min-height:100%; }
+    body {
+      background:var(--cream); color:var(--blue);
+      font-family:'Space Mono',monospace;
+      min-height:100vh; display:flex; flex-direction:column;
+      align-items:center; padding:0px 0 70px;
+    }
+    body::before {
+      content:''; position:fixed; inset:0;
+      background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(18,54,133,.015) 2px,rgba(18,54,133,.015) 4px);
+      pointer-events:none; z-index:999;
+    }
+    .page { width:100%; max-width:640px; padding:0 18px; }
+
+    .page-header { text-align:center; margin-bottom:30px; }
+    h1 {
+      font-family:'Retro Computer','Press Start 2P',sans-serif;
+      font-size:clamp(26px,7.5vw,42px); letter-spacing:1px; margin:0; line-height:1.3; font-weight:400;
+    }
+    .host-line { font-family:'Space Mono',monospace; font-size:12px; letter-spacing:3px; color:var(--blue); opacity:.8; margin-top:2px; }
+    .subtitle { font-size:11px; letter-spacing:1px; opacity:.7; margin-top:28px; }
+
+    .filter-row { display:flex; gap:8px; margin-bottom:22px; flex-wrap:wrap; }
+    .filter-btn {
+      font-family:'Space Mono',monospace; font-size:9px; letter-spacing:2px;
+      padding:8px 14px; border:1.5px dotted var(--blue); border-radius:20px;
+      background:transparent; color:var(--blue); cursor:pointer; opacity:.5; transition:all .15s;
+    }
+    .filter-btn.active, .filter-btn:hover { background:var(--blue); color:var(--cream); opacity:1; border-style:solid; }
+
+    /* EVENT CARD — khung ngang */
+    .event-card {
+      background: var(--white); border: 2px dotted var(--blue); border-radius: 16px;
+      overflow: hidden; margin-bottom: 14px;
+      display: flex; align-items: stretch;
+      transition: transform .15s, box-shadow .15s;
+      animation: fadeInUp .5s ease both;
+    }
+    .event-card:nth-child(2){animation-delay:.07s}
+    .event-card:nth-child(3){animation-delay:.14s}
+    .event-card:nth-child(4){animation-delay:.21s}
+    .event-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(18,54,133,.1); }
+
+    /* cột trái — ngày */
+    .event-date-col {
+      background: var(--blue); color: var(--cream);
+      min-width: 72px; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 16px 10px; text-align: center; flex-shrink: 0;
+    }
+    .event-day-num {
+      font-family: 'Space Mono', monospace; font-weight: 700;
+      font-size: 33px; line-height: 1; margin-bottom: 4px;
+    }
+    .event-month { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 13.5px; letter-spacing: 2px; opacity: .7; }
+    .event-year  { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 12px; letter-spacing: 1px; opacity: .45; margin-top: 2px; }
+
+    /* cột phải — nội dung */
+    .event-body {
+      flex: 1; padding: 14px 18px;
+      display: flex; flex-direction: column; justify-content: center; gap: 6px;
+    }
+    .event-name {
+      font-family: 'Retro Computer','Press Start 2P',sans-serif;
+      font-size: clamp(22px,5vw,28px); letter-spacing: 1px; line-height: 1.4;
+    }
+    .event-meta {
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+    }
+    .event-meta-item {
+      display: block;
+      font-size: 12px; letter-spacing: 1px; opacity: .55; line-height: 1.8;
+    }
+    .event-badge {
+      font-size: 8px; letter-spacing: 2px; padding: 3px 10px;
+      border: 1px dotted rgba(18,54,133,.35); border-radius: 20px;
+      opacity: .6; margin-left: auto; align-self: flex-start;
+    }
+    .event-badge.live { border-color: #00c16e; color: #00c16e; opacity: 1; animation: pulseBadge 2s ease-in-out infinite; }
+    @keyframes pulseBadge { 0%,100%{opacity:1} 50%{opacity:.5} }
+
+    .event-status-badge {
+      font-size: 8px; letter-spacing: 2px; padding: 3px 10px; white-space: nowrap;
+      border: 1px dotted rgba(18,54,133,.35); border-radius: 20px;
+      opacity: .7; flex-shrink: 0;
+    }
+    .event-status-badge.badge-upcoming { border-color: var(--blue); color: var(--blue); opacity: .6; }
+    .event-status-badge.badge-ongoing  { border-color: #00c16e; color: #00c16e; opacity: 1; animation: pulseBadge 2s ease-in-out infinite; }
+    .event-status-badge.badge-past     { border-color: rgba(18,54,133,.3); color: var(--blue); opacity: .35; }
+
+    @keyframes fadeInUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── HEADER ── */
+.r71-header {
+  background: var(--cream);
+  border-bottom: 1.5px dotted rgba(18,54,133,.25);
+  position: sticky; top: 0; z-index: 100;
+  width: 100%;
+}
+.r71-header::before {
+  content: '';
+  display: block; height: 3px;
+  background: repeating-linear-gradient(90deg, var(--blue) 0, var(--blue) 4px, transparent 4px, transparent 9px);
+  opacity: .25;
+}
+.r71-header-inner {
+  max-width: 100%; margin: 0;
+  padding: 0 32px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 52px;
+}
+.r71-logo {
+  font-family: 'Retro Computer','Press Start 2P',sans-serif;
+  font-size: 13px; letter-spacing: 1px; color: var(--blue);
+  text-decoration: none; line-height: 1; font-weight: 400;
+  flex-shrink: 0;
+}
+.r71-logo span {
+  font-size: 9px; letter-spacing: 3px; opacity: .45;
+  display: block; margin-top: 2px; font-family: 'Space Mono', monospace;
+}
+.r71-nav { display: flex; align-items: center; gap: 2px; }
+.r71-nav a {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: 2px;
+  color: var(--blue); text-decoration: none;
+  padding: 6px 11px; border-radius: 20px;
+  opacity: .5; transition: all .15s; white-space: nowrap;
+}
+.r71-nav a:hover { opacity: 1; background: rgba(18,54,133,.07); }
+.r71-nav a.active { opacity: 1; background: var(--blue); color: var(--cream); }
+.r71-nav a.r71-ticket {
+  background: var(--blue); color: var(--cream);
+  opacity: 1; margin-left: 6px; padding: 6px 13px;
+}
+.r71-nav a.r71-ticket:hover { background: var(--blue-deep); }
+.r71-nav a.r71-ticket.active { background: var(--blue-deep); }
+.r71-hamburger {
+  display: none;
+  background: none; border: 1.5px dotted rgba(18,54,133,.4);
+  border-radius: 8px; padding: 6px 9px; cursor: pointer;
+  color: var(--blue); font-size: 14px; line-height: 1;
+  font-family: 'Space Mono', monospace;
+}
+.r71-mobile-menu {
+  display: none;
+  background: var(--white);
+  border-bottom: 1.5px dotted rgba(18,54,133,.2);
+  padding: 8px 18px 12px;
+}
+.r71-mobile-menu.open { display: block; }
+.r71-mobile-menu a {
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px; letter-spacing: 2px;
+  color: var(--blue); text-decoration: none;
+  padding: 11px 8px;
+  border-bottom: 1px dotted rgba(18,54,133,.12);
+  opacity: .6; transition: opacity .12s;
+}
+.r71-mobile-menu a:last-child { border-bottom: none; }
+.r71-mobile-menu a:hover, .r71-mobile-menu a.active { opacity: 1; }
+.r71-mobile-menu a.active { font-weight: 700; }
+.r71-mobile-menu a .r71-micon { min-width: 20px; }
+@media (max-width: 480px) {
+  .r71-nav { display: none !important; }
+  .r71-hamburger { display: block !important; }
+}
+
+  </style>
+</head>
+<body>
+
+<header class="r71-header">
+  <div class="r71-header-inner">
+    <a href="index.html" class="r71-logo">
+      RADIO 7 TO 1
+      <span>SINCE 2026</span>
+    </a>
+    <nav class="r71-nav">
+      <a href="index.html">HOME</a>
+      <a href="schedule.html">SCHEDULE</a>
+      <a href="artists.html">HOST</a>
+      <a href="about.html">ABOUT</a>
+      <a href="ticket.html" class="r71-ticket">TICKET FM01</a>
+    </nav>
+    <button class="r71-hamburger" id="r71HamburgerBtn" aria-label="Mở menu">☰</button>
+  </div>
+  <nav class="r71-mobile-menu" id="r71MobileMenu">
+    <a href="index.html"></span>HOME</a>
+    <a href="schedule.html"></span>SCHEDULE</a>
+    <a href="artists.html"></span>HOST</a>
+    <a href="about.html"></span>ABOUT</a>
+    <a href="ticket.html" class="r71-ticket"></span>TICKET FM01</a>
+  </nav>
+</header>
+
+  <div class="page">
+    <div class="page-header">
+      <h1>SCHEDULE</h1>
+      <p class="host-line">RADIO 7 TO 1</p>
+      <p class="subtitle">ON AIR SCHEDULE</p>
+    </div>
+
+    <div class="filter-row">
+      <button class="filter-btn active">ALL</button>
+      <button class="filter-btn">UPCOMING</button>
+      <button class="filter-btn">ONGOING</button>
+      <button class="filter-btn">PAST</button>
+    </div>
+
+    <div class="event-card" data-date="17/07/2026" data-start="19:00" data-end="24:00">
+      <div class="event-date-col">
+        <div class="event-day-num">17</div>
+        <div class="event-month">Th07</div>
+        <div class="event-year">2026</div>
+      </div>
+      <div class="event-body">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+          <div class="event-name">FM127.01HMZ</div>
+          <span class="event-status-badge"></span>
+        </div>
+        <div class="event-meta-item event-time">19:00 – 24:00</div>
+        <div class="event-meta-item">Nhà thi đấu Tân Bình, 448 Hoàng Văn Thụ, phường Tân Sơn Nhất, TP.HCM</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ── AUTO STATUS ──
+    // Cách dùng: thêm vào mỗi .event-card:
+    //   data-date="DD/MM/YYYY"   (ngày diễn ra)
+    //   data-start="HH:MM"       (giờ bắt đầu)
+    //   data-end="HH:MM"         (giờ kết thúc)
+    // Script tự tính UPCOMING / ONGOING / PAST và gán class + badge.
+
+    var MONTHS = ['Th01','Th02','Th03','Th04','Th05','Th06','Th07','Th08','Th09','Th10','Th11','Th12'];
+
+    function parseEventDatetime(dateStr, timeStr) {
+      if (!dateStr || !timeStr || dateStr.includes('—')) return null;
+      var parts = dateStr.split('/');
+      if (parts.length !== 3) return null;
+      var d = parts[0], m = parts[1], y = parts[2];
+      var t = timeStr.split(':');
+      return new Date(+y, +m - 1, +d, +t[0], +t[1] || 0);
+    }
+
+    function getStatus(card) {
+      var dateStr  = card.dataset.date  || '';
+      var startStr = card.dataset.start || '00:00';
+      var endStr   = card.dataset.end   || '23:59';
+      var now = new Date();
+      var start = parseEventDatetime(dateStr, startStr);
+      var end   = parseEventDatetime(dateStr, endStr);
+      if (!start || !end) return 'unknown';
+      if (now < start) return 'upcoming';
+      if (now >= start && now <= end) return 'ongoing';
+      return 'past';
+    }
+
+    var BADGE_LABEL = { upcoming: 'UPCOMING', ongoing: '● ONGOING', past: 'PAST', unknown: '' };
+    var BADGE_CLASS = { upcoming: 'badge-upcoming', ongoing: 'badge-ongoing', past: 'badge-past', unknown: '' };
+
+    function updateStatuses() {
+      document.querySelectorAll('.event-card').forEach(function(card) {
+        var status = getStatus(card);
+        card.dataset.status = status;
+        var badge = card.querySelector('.event-status-badge');
+        if (badge) {
+          badge.textContent = BADGE_LABEL[status] || '';
+          badge.className = 'event-status-badge ' + (BADGE_CLASS[status] || '');
+        }
+        // auto month abbreviation from data-date
+        var dateStr = card.dataset.date || '';
+        var parts = dateStr.split('/');
+        if (parts.length === 3) {
+          var mEl = card.querySelector('.event-month');
+          if (mEl) mEl.textContent = MONTHS[+parts[1] - 1] || mEl.textContent;
+        }
+      });
+    }
+
+    // ── FILTER ──
+    function applyFilter(filter) {
+      document.querySelectorAll('.event-card').forEach(function(card) {
+        var show = (filter === 'all') || (card.dataset.status === filter);
+        card.style.display = show ? '' : 'none';
+      });
+    }
+
+    document.querySelectorAll('.filter-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        applyFilter(btn.textContent.trim().toLowerCase());
+      });
+    });
+
+    updateStatuses();
+    setInterval(updateStatuses, 60000); // cập nhật mỗi phút
+  </script>
+<script>
+  (function() {
+    var current = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.r71-nav a, .r71-mobile-menu a').forEach(function(a) {
+      if (a.getAttribute('href') === current) a.classList.add('active');
+    });
+    var btn = document.getElementById('r71HamburgerBtn');
+    var menu = document.getElementById('r71MobileMenu');
+    if (btn && menu) {
+      btn.addEventListener('click', function() {
+        var isOpen = menu.classList.toggle('open');
+        btn.textContent = isOpen ? '✕' : '☰';
+      });
+    }
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RADIO 7 TO 1 — About</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bad+Script&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/retro-computer" rel="stylesheet">
+  <style>
+    :root { --blue:#123685; --blue-deep:#0d2868; --cream:#fbf8f2; --white:#ffffff; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    html,body { min-height:100%; }
+    body {
+      background:var(--cream); color:var(--blue);
+      font-family:'Space Mono',monospace;
+      min-height:100vh; display:flex; flex-direction:column;
+      align-items:center; padding:0px 0 70px;
+    }
+    body::before {
+      content:''; position:fixed; inset:0;
+      background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(18,54,133,.015) 2px,rgba(18,54,133,.015) 4px);
+      pointer-events:none; z-index:999;
+    }
+    .page { width:100%; max-width:640px; padding:0 18px; }
+
+    .page-header { text-align:center; margin-bottom:30px; }
+    h1 { font-family:'Retro Computer','Press Start 2P',sans-serif; font-size:clamp(26px,7.5vw,42px); letter-spacing:1px; margin:0; line-height:1.3; font-weight:400; }
+    .host-line { font-family:'Space Mono',monospace; font-size:12px; letter-spacing:3px; color:var(--blue); opacity:.8; margin-top:2px; }
+    .subtitle { font-size:11px; letter-spacing:1px; opacity:.7; margin-top:28px; }
+
+    /* ── INFO CARDS — same style as original content-card ── */
+    .info-card {
+      background:var(--white); border:2px dotted var(--blue); border-radius:16px;
+      padding:24px 22px; margin-bottom:16px; animation:fadeInUp .5s ease both;
+    }
+    .info-card:nth-child(1){animation-delay:0s}
+    .info-card:nth-child(2){animation-delay:.1s}
+    .info-card:nth-child(3){animation-delay:.2s}
+    .info-card:nth-child(4){animation-delay:.3s}
+
+    /* dark variant — same as original cta-card */
+    .info-card--dark {
+      background:var(--blue); color:var(--cream);
+      border:2px solid var(--blue);
+    }
+    .info-card--dark .ic-eyebrow { color:var(--cream); opacity:.5; }
+    .info-card--dark .ic-title  { color:var(--cream); }
+    .info-card--dark .ic-body   { color:var(--cream); opacity:.7; }
+
+    .ic-eyebrow { font-size:9px; letter-spacing:4px; opacity:.35; margin-bottom:12px; }
+    .ic-title {
+      font-family:'Retro Computer','Press Start 2P',sans-serif;
+      font-size:clamp(12px,3vw,16px); line-height:1.4; margin-bottom:14px;
+    }
+    .ic-body { font-size:11px; letter-spacing:.5px; line-height:1.9; opacity:.7; }
+    .ic-divider {
+      height:1px;
+      background:repeating-linear-gradient(90deg,var(--blue) 0,var(--blue) 3px,transparent 3px,transparent 7px);
+      opacity:.15; margin:16px 0;
+    }
+
+    /* member grid — 7 equal cells: 3 + 3 + 1 centered */
+    .member-grid {
+      display:grid; grid-template-columns:repeat(3,1fr);
+      gap:10px; margin-top:16px;
+    }
+    .member-item {
+      background:rgba(18,54,133,.04);
+      border:1px dotted rgba(18,54,133,.2);
+      border-radius:10px; padding:14px 12px;
+    }
+    .member-item--center { grid-column: 2 / 3; }
+    .member-alias {
+      font-family:'Retro Computer','Press Start 2P',sans-serif;
+      font-size:13px; letter-spacing:1px; margin-bottom:6px; opacity:.9;
+    }
+    .member-name {
+      font-family:'Space Mono',monospace;
+      font-size:8.5px; line-height:1.5; margin-bottom:10px; opacity:.55; letter-spacing:.5px;
+    }
+    .member-socials { display:flex; gap:5px; flex-wrap:wrap; }
+    .msoc {
+      display:inline-flex; align-items:center; justify-content:center;
+      width:24px; height:24px;
+      border:1px dotted rgba(18,54,133,.3); border-radius:5px;
+      color:var(--blue); text-decoration:none;
+      opacity:.45; transition:opacity .15s, border-color .15s;
+    }
+    .msoc:hover { opacity:1; border-color:rgba(18,54,133,.7); }
+    .msoc svg { width:13px; height:13px; fill:currentColor; display:block; }
+
+    /* group socials */
+    .group-socials { margin-top:20px; display:flex; flex-direction:column; }
+    .gsoc-row {
+      display:flex; align-items:center; gap:12px;
+      padding:13px 0;
+      border-bottom:1px dotted rgba(255,255,255,.15);
+      text-decoration:none; transition:opacity .12s;
+    }
+    .gsoc-row:last-child { border-bottom:none; }
+    .gsoc-row:hover { opacity:.75; }
+    .gsoc-platform { font-size:8px; letter-spacing:3px; color:var(--cream); opacity:.5; min-width:90px; }
+    .gsoc-handle { font-family:'Space Mono',monospace; font-size:11px; color:var(--cream); flex:1; }
+    .gsoc-arrow { color:var(--cream); opacity:.4; font-size:13px; }
+
+    @keyframes fadeInUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+    @media(max-width:480px){
+      .member-grid { grid-template-columns:repeat(2,1fr); }
+      .member-item--center { grid-column: auto; }
+    }
+
+/* ── HEADER ── */
+.r71-header {
+  background: var(--cream);
+  border-bottom: 1.5px dotted rgba(18,54,133,.25);
+  position: sticky; top: 0; z-index: 100;
+  width: 100%;
+}
+.r71-header::before {
+  content: '';
+  display: block; height: 3px;
+  background: repeating-linear-gradient(90deg, var(--blue) 0, var(--blue) 4px, transparent 4px, transparent 9px);
+  opacity: .25;
+}
+.r71-header-inner {
+  max-width: 100%; margin: 0;
+  padding: 0 32px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 52px;
+}
+.r71-logo {
+  font-family: 'Retro Computer','Press Start 2P',sans-serif;
+  font-size: 13px; letter-spacing: 1px; color: var(--blue);
+  text-decoration: none; line-height: 1; font-weight: 400;
+  flex-shrink: 0;
+}
+.r71-logo span {
+  font-size: 9px; letter-spacing: 3px; opacity: .45;
+  display: block; margin-top: 2px; font-family: 'Space Mono', monospace;
+}
+.r71-nav { display: flex; align-items: center; gap: 2px; }
+.r71-nav a {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: 2px;
+  color: var(--blue); text-decoration: none;
+  padding: 6px 11px; border-radius: 20px;
+  opacity: .5; transition: all .15s; white-space: nowrap;
+}
+.r71-nav a:hover { opacity: 1; background: rgba(18,54,133,.07); }
+.r71-nav a.active { opacity: 1; background: var(--blue); color: var(--cream); }
+.r71-nav a.r71-ticket {
+  background: var(--blue); color: var(--cream);
+  opacity: 1; margin-left: 6px; padding: 6px 13px;
+}
+.r71-nav a.r71-ticket:hover { background: var(--blue-deep); }
+.r71-nav a.r71-ticket.active { background: var(--blue-deep); }
+.r71-hamburger {
+  display: none;
+  background: none; border: 1.5px dotted rgba(18,54,133,.4);
+  border-radius: 8px; padding: 6px 9px; cursor: pointer;
+  color: var(--blue); font-size: 14px; line-height: 1;
+  font-family: 'Space Mono', monospace;
+}
+.r71-mobile-menu {
+  display: none;
+  background: var(--white);
+  border-bottom: 1.5px dotted rgba(18,54,133,.2);
+  padding: 8px 18px 12px;
+}
+.r71-mobile-menu.open { display: block; }
+.r71-mobile-menu a {
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px; letter-spacing: 2px;
+  color: var(--blue); text-decoration: none;
+  padding: 11px 8px;
+  border-bottom: 1px dotted rgba(18,54,133,.12);
+  opacity: .6; transition: opacity .12s;
+}
+.r71-mobile-menu a:last-child { border-bottom: none; }
+.r71-mobile-menu a:hover, .r71-mobile-menu a.active { opacity: 1; }
+.r71-mobile-menu a.active { font-weight: 700; }
+.r71-mobile-menu a .r71-micon { min-width: 20px; }
+@media (max-width: 480px) {
+  .r71-nav { display: none !important; }
+  .r71-hamburger { display: block !important; }
+}
+
+  </style>
+</head>
+<body>
+
+<header class="r71-header">
+  <div class="r71-header-inner">
+    <a href="index.html" class="r71-logo">
+      RADIO 7 TO 1
+      <span>SINCE 2026</span>
+    </a>
+    <nav class="r71-nav">
+      <a href="index.html">HOME</a>
+      <a href="schedule.html">SCHEDULE</a>
+      <a href="artists.html">HOST</a>
+      <a href="about.html">ABOUT</a>
+      <a href="ticket.html" class="r71-ticket">TICKET FM01</a>
+    </nav>
+    <button class="r71-hamburger" id="r71HamburgerBtn" aria-label="Mở menu">☰</button>
+  </div>
+  <nav class="r71-mobile-menu" id="r71MobileMenu">
+    <a href="index.html"></span>HOME</a>
+    <a href="schedule.html"></span>SCHEDULE</a>
+    <a href="artists.html"></span>HOST</a>
+    <a href="about.html"></span>ABOUT</a>
+    <a href="ticket.html" class="r71-ticket"></span>TICKET FM01</a>
+  </nav>
+</header>
+
+  <div class="page">
+    <div class="page-header">
+      <h1>ABOUT</h1>
+      <p class="host-line">RADIO 7 TO 1</p>
+      <p class="subtitle">THE STORY BEHIND THE SIGNAL</p>
+    </div>
+
+    <!-- CARD 1: RADIO 7 TO 1 -->
+    <div class="info-card" style="animation-delay:0s">
+      <div class="ic-eyebrow">// RADIO 7 TO 1 //</div>
+      <div class="ic-title">THE SIGNAL_</div>
+      <div class="ic-body">
+        Radio 7 to 1 là một dự án âm nhạc underground ra đời tại Sài Gòn, lấy cảm hứng từ văn hóa radio cổ điển và năng lượng của thế hệ trẻ. Tên gọi <em>7 to 1</em> là tỷ số lịch sử — một biểu tượng của tinh thần bất khuất và niềm tin vào điều không thể.
+        <br><br>
+        Mỗi sự kiện là một lần phát sóng. Mỗi đêm nhạc là một tần số được gửi đi — qua âm thanh, qua thiết kế, qua những tấm vé mang về nhà như ký ức.
+      </div>
+    </div>
+
+    <!-- CARD 2: UPRIZE -->
+    <div class="info-card" style="animation-delay:.08s">
+      <div class="ic-eyebrow">// UPRIZE //</div>
+      <div class="ic-title">THE CREW BEHIND THE MUSIC_</div>
+      <div class="ic-body">
+        UPRIZE là nhóm nghệ sĩ và producer đứng sau Radio 7 to 1 — một tập thể gồm 7 thành viên với chung một ngôn ngữ âm nhạc: điện tử, underground, và không giới hạn.
+        <br><br>
+        Từ buổi jam session trong phòng bé đến những đêm diễn đông người, UPRIZE mang đến âm thanh của thế hệ mới Sài Gòn — raw, thật, và không cần xin phép.
+      </div>
+    </div>
+
+    <!-- CARD 3: 7 THÀNH VIÊN -->
+    <div class="info-card" style="animation-delay:.16s">
+      <div class="ic-eyebrow">// 7 MEMBERS //</div>
+      <div class="ic-title">FIND THE SIGNAL_</div>
+      <div class="member-grid">
+
+        <div class="member-item">
+          <div class="member-alias">BEX</div>
+          <div class="member-name">BẠCH HỒNG CƯỜNG</div>
+          <div class="member-socials">
+            <a href="https://www.facebook.com/profile.php?id=100068732351004" class="msoc" target="_blank" title="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.884v2.27h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg></a>
+            <a href="https://www.instagram.com/cuongbach__" class="msoc" target="_blank" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+            <a href="https://www.threads.net/@cuongbach__" class="msoc" target="_blank" title="Threads"><svg viewBox="0 0 24 24"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.851 1.205 8.604.024 12.186 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.357 3.616 8.58 3.589 12c.027 3.42.718 5.644 2.072 7.163 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.964-.065-1.19.408-2.285 1.33-3.082.88-.76 2.119-1.207 3.583-1.291a13.853 13.853 0 012.322.099c-.096-.65-.289-1.172-.586-1.551-.38-.487-.963-.734-1.733-.736h-.017c-.595 0-1.772.159-2.415 1.485l-1.83-.886c.877-1.933 2.598-2.799 4.261-2.799h.023c2.984.017 4.753 1.802 4.927 4.93.03.56.029 1.205-.012 1.913a9.516 9.516 0 00.88.071c.468-.029.878-.154 1.215-.374.526-.343.81-.874.81-1.535 0-.78-.24-1.431-.694-1.888-.385-.388-.933-.67-1.638-.844-.148-.037-.3-.065-.453-.086zm-3.402 5.327c.894-.048 1.71-.396 2.234-1.048.442-.547.69-1.314.74-2.283a10.5 10.5 0 00-1.895-.084c-.93.054-1.684.303-2.188.72-.43.358-.649.818-.623 1.31.047.851.78 1.457 1.732 1.385z"/></svg></a>
+            <a href="https://www.tiktok.com/@cuongbach___" class="msoc" target="_blank" title="TikTok"><svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
+          </div>
+        </div>
+
+        <div class="member-item">
+          <div class="member-alias">WONBI</div>
+          <div class="member-name">LÊ PHẠM MINH QUÂN</div>
+          <div class="member-socials">
+            <a href="https://www.facebook.com/WONBI.uprize" class="msoc" target="_blank" title="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.884v2.27h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg></a>
+            <a href="https://www.instagram.com/bi.minhquan" class="msoc" target="_blank" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+            <a href="https://www.threads.net/@bi.minhquan" class="msoc" target="_blank" title="Threads"><svg viewBox="0 0 24 24"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.851 1.205 8.604.024 12.186 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.357 3.616 8.58 3.589 12c.027 3.42.718 5.644 2.072 7.163 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.964-.065-1.19.408-2.285 1.33-3.082.88-.76 2.119-1.207 3.583-1.291a13.853 13.853 0 012.322.099c-.096-.65-.289-1.172-.586-1.551-.38-.487-.963-.734-1.733-.736h-.017c-.595 0-1.772.159-2.415 1.485l-1.83-.886c.877-1.933 2.598-2.799 4.261-2.799h.023c2.984.017 4.753 1.802 4.927 4.93.03.56.029 1.205-.012 1.913a9.516 9.516 0 00.88.071c.468-.029.878-.154 1.215-.374.526-.343.81-.874.81-1.535 0-.78-.24-1.431-.694-1.888-.385-.388-.933-.67-1.638-.844-.148-.037-.3-.065-.453-.086zm-3.402 5.327c.894-.048 1.71-.396 2.234-1.048.442-.547.69-1.314.74-2.283a10.5 10.5 0 00-1.895-.084c-.93.054-1.684.303-2.188.72-.43.358-.649.818-.623 1.31.047.851.78 1.457 1.732 1.385z"/></svg></a>
+            <a href="https://www.tiktok.com/@uprize_wonbi" class="msoc" target="_blank" title="TikTok"><svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
+          </div>
+        </div>
+
+        <div class="member-item">
+          <div class="member-alias">LEON</div>
+          <div class="member-name">TẠ HOÀNG LONG</div>
+          <div class="member-socials">
+            <a href="https://www.facebook.com/longhoang.uprize" class="msoc" target="_blank" title="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.884v2.27h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg></a>
+            <a href="https://www.instagram.com/longhoangofficial" class="msoc" target="_blank" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+            <a href="https://www.threads.net/@longhoangofficial" class="msoc" target="_blank" title="Threads"><svg viewBox="0 0 24 24"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.851 1.205 8.604.024 12.186 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.357 3.616 8.58 3.589 12c.027 3.42.718 5.644 2.072 7.163 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.964-.065-1.19.408-2.285 1.33-3.082.88-.76 2.119-1.207 3.583-1.291a13.853 13.853 0 012.322.099c-.096-.65-.289-1.172-.586-1.551-.38-.487-.963-.734-1.733-.736h-.017c-.595 0-1.772.159-2.415 1.485l-1.83-.886c.877-1.933 2.598-2.799 4.261-2.799h.023c2.984.017 4.753 1.802 4.927 4.93.03.56.029 1.205-.012 1.913a9.516 9.516 0 00.88.071c.468-.029.878-.154 1.215-.374.526-.343.81-.874.81-1.535 0-.78-.24-1.431-.694-1.888-.385-.388-.933-.67-1.638-.844-.148-.037-.3-.065-.453-.086zm-3.402 5.327c.894-.048 1.71-.396 2.234-1.048.442-.547.69-1.314.74-2.283a10.5 10.5 0 00-1.895-.084c-.93.054-1.684.303-2.188.72-.43.358-.649.818-.623 1.31.047.851.78 1.457 1.732 1.385z"/></svg></a>
+            <a href="https://www.tiktok.com/@longhoang.official" class="msoc" target="_blank" title="TikTok"><svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
+          </div>
+        </div>
+
+        <div class="member-item">
+          <div class="member-alias">DYLAN</div>
+          <div class="member-name">LÊ DUY LÂN</div>
+          <div class="member-socials">
+            <a href="https://www.facebook.com/duylan.uprize" class="msoc" target="_blank" title="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.884v2.27h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg></a>
+            <a href="https://www.instagram.com/_leduylan" class="msoc" target="_blank" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+            <a href="https://www.threads.net/@_leduylan" class="msoc" target="_blank" title="Threads"><svg viewBox="0 0 24 24"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.851 1.205 8.604.024 12.186 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.357 3.616 8.58 3.589 12c.027 3.42.718 5.644 2.072 7.163 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.964-.065-1.19.408-2.285 1.33-3.082.88-.76 2.119-1.207 3.583-1.291a13.853 13.853 0 012.322.099c-.096-.65-.289-1.172-.586-1.551-.38-.487-.963-.734-1.733-.736h-.017c-.595 0-1.772.159-2.415 1.485l-1.83-.886c.877-1.933 2.598-2.799 4.261-2.799h.023c2.984.017 4.753 1.802 4.927 4.93.03.56.029 1.205-.012 1.913a9.516 9.516 0 00.88.071c.468-.029.878-.154 1.215-.374.526-.343.81-.874.81-1.535 0-.78-.24-1.431-.694-1.888-.385-.388-.933-.67-1.638-.844-.148-.037-.3-.065-.453-.086zm-3.402 5.327c.894-.048 1.71-.396 2.234-1.048.442-.547.69-1.314.74-2.283a10.5 10.5 0 00-1.895-.084c-.93.054-1.684.303-2.188.72-.43.358-.649.818-.623 1.31.047.851.78 1.457 1.732 1.385z"/></svg></a>
+            <a href="https://www.tiktok.com/@uprize_dylan" class="msoc" target="_blank" title="TikTok"><svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
+          </div>
+        </div>
+
+        <div class="member-item">
+          <div class="member-alias">O.D</div>
+          <div class="member-name">ĐẶNG ĐỨC DUY</div>
+          <div class="member-socials">
+            <a href="https://www.facebook.com/ducduy.uprize" class="msoc" target="_blank" title="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.884v2.27h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg></a>
+            <a href="https://www.instagram.com/this_is_joey05" class="msoc" target="_blank" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+            <a href="https://www.threads.net/@this_is_joey05" class="msoc" target="_blank" title="Threads"><svg viewBox="0 0 24 24"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.851 1.205 8.604.024 12.186 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.357 3.616 8.58 3.589 12c.027 3.42.718 5.644 2.072 7.163 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.964-.065-1.19.408-2.285 1.33-3.082.88-.76 2.119-1.207 3.583-1.291a13.853 13.853 0 012.322.099c-.096-.65-.289-1.172-.586-1.551-.38-.487-.963-.734-1.733-.736h-.017c-.595 0-1.772.159-2.415 1.485l-1.83-.886c.877-1.933 2.598-2.799 4.261-2.799h.023c2.984.017 4.753 1.802 4.927 4.93.03.56.029 1.205-.012 1.913a9.516 9.516 0 00.88.071c.468-.029.878-.154 1.215-.374.526-.343.81-.874.81-1.535 0-.78-.24-1.431-.694-1.888-.385-.388-.933-.67-1.638-.844-.148-.037-.3-.065-.453-.086zm-3.402 5.327c.894-.048 1.71-.396 2.234-1.048.442-.547.69-1.314.74-2.283a10.5 10.5 0 00-1.895-.084c-.93.054-1.684.303-2.188.72-.43.358-.649.818-.623 1.31.047.851.78 1.457 1.732 1.385z"/></svg></a>
+            <a href="https://www.tiktok.com/@uprize_od" class="msoc" target="_blank" title="TikTok"><svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
+          </div>
+        </div>
+
+        <div class="member-item">
+          <div class="member-alias">LAVM</div>
+          <div class="member-name">NGUYỄN LÂM ANH</div>
+          <div class="member-socials">
+            <a href="https://www.facebook.com/lamanh.uprize" class="msoc" target="_blank" title="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.884v2.27h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg></a>
+            <a href="https://www.instagram.com/yuv_wvl" class="msoc" target="_blank" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+            <a href="https://www.threads.net/@yuv_wvl" class="msoc" target="_blank" title="Threads"><svg viewBox="0 0 24 24"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.851 1.205 8.604.024 12.186 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.357 3.616 8.58 3.589 12c.027 3.42.718 5.644 2.072 7.163 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.964-.065-1.19.408-2.285 1.33-3.082.88-.76 2.119-1.207 3.583-1.291a13.853 13.853 0 012.322.099c-.096-.65-.289-1.172-.586-1.551-.38-.487-.963-.734-1.733-.736h-.017c-.595 0-1.772.159-2.415 1.485l-1.83-.886c.877-1.933 2.598-2.799 4.261-2.799h.023c2.984.017 4.753 1.802 4.927 4.93.03.56.029 1.205-.012 1.913a9.516 9.516 0 00.88.071c.468-.029.878-.154 1.215-.374.526-.343.81-.874.81-1.535 0-.78-.24-1.431-.694-1.888-.385-.388-.933-.67-1.638-.844-.148-.037-.3-.065-.453-.086zm-3.402 5.327c.894-.048 1.71-.396 2.234-1.048.442-.547.69-1.314.74-2.283a10.5 10.5 0 00-1.895-.084c-.93.054-1.684.303-2.188.72-.43.358-.649.818-.623 1.31.047.851.78 1.457 1.732 1.385z"/></svg></a>
+            <a href="https://www.tiktok.com/@uprize_lavm" class="msoc" target="_blank" title="TikTok"><svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
+          </div>
+        </div>
+
+        <div class="member-item member-item--center">
+          <div class="member-alias">PN</div>
+          <div class="member-name">NGUYỄN THANH PHÚC NGUYÊN</div>
+          <div class="member-socials">
+            <a href="https://www.facebook.com/phucnguyen.uprize" class="msoc" target="_blank" title="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.884v2.27h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg></a>
+            <a href="https://www.instagram.com/pnnnnnnnnnnnnnnnnnnnnnnnnnnn" class="msoc" target="_blank" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+            
+            <a href="https://www.tiktok.com/@uprize_pn" class="msoc" target="_blank" title="TikTok"><svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 4: UPRIZE GROUP SOCIALS -->
+    <div class="info-card info-card--dark" style="animation-delay:.24s">
+      <div class="ic-eyebrow" style="color:var(--cream);opacity:.45">// UPRIZE CHANNELS //</div>
+      <div class="ic-title" style="color:var(--cream)">TUNE IN_</div>
+      <div class="ic-body" style="color:var(--cream);opacity:.65">
+        Theo dõi UPRIZE và Radio 7 to 1 trên tất cả các kênh — livestream, mix sets, ảnh hậu trường và thông tin sự kiện mới nhất.
+      </div>
+      <div class="group-socials">
+        <a href="https://www.facebook.com/uprize.official" class="gsoc-row" target="_blank">
+          <span class="gsoc-platform">FACEBOOK</span>
+          <span class="gsoc-handle">uprize.official</span>
+          <span class="gsoc-arrow">→</span>
+        </a>
+        <a href="https://www.instagram.com/uprize_2026" class="gsoc-row" target="_blank">
+          <span class="gsoc-platform">INSTAGRAM</span>
+          <span class="gsoc-handle">@uprize_2026</span>
+          <span class="gsoc-arrow">→</span>
+        </a>
+        <div class="gsoc-row" style="cursor:default;">
+          <span class="gsoc-platform">YOUTUBE</span>
+          <span class="gsoc-handle" style="display:flex;flex-direction:column;gap:5px;">
+            <a href="https://www.youtube.com/channel/UC9zds8lqNOAF3di67mAktuA" target="_blank" style="color:inherit;text-decoration:none;display:flex;justify-content:space-between;align-items:center;">SYE OFFICIAL <span style="opacity:.4;font-size:13px;">→</span></a>
+            <a href="https://www.youtube.com/channel/UCChCIH_pAoavr4Oc7NGa7FQ" target="_blank" style="color:inherit;text-decoration:none;display:flex;justify-content:space-between;align-items:center;">UPRIZE <span style="opacity:.4;font-size:13px;">→</span></a>
+          </span>
+        </div>
+        <a href="https://www.tiktok.com/@uprize.official" class="gsoc-row" target="_blank">
+          <span class="gsoc-platform">TIKTOK</span>
+          <span class="gsoc-handle">@uprize.official</span>
+          <span class="gsoc-arrow">→</span>
+        </a>
+        <a href="https://open.spotify.com/artist/0fve2D18BgaMHWQSBiqSzN" class="gsoc-row" target="_blank">
+          <span class="gsoc-platform">SPOTIFY</span>
+          <span class="gsoc-handle">UPRIZE</span>
+          <span class="gsoc-arrow">→</span>
+        </a>
+        <a href="https://music.apple.com/us/artist/uprize/1880617888" class="gsoc-row" target="_blank">
+          <span class="gsoc-platform">APPLE MUSIC</span>
+          <span class="gsoc-handle">UPRIZE</span>
+          <span class="gsoc-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+<script>
+  (function() {
+    var current = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.r71-nav a, .r71-mobile-menu a').forEach(function(a) {
+      if (a.getAttribute('href') === current) a.classList.add('active');
+    });
+    var btn = document.getElementById('r71HamburgerBtn');
+    var menu = document.getElementById('r71MobileMenu');
+    if (btn && menu) {
+      btn.addEventListener('click', function() {
+        var isOpen = menu.classList.toggle('open');
+        btn.textContent = isOpen ? '✕' : '☰';
+      });
+    }
+  })();
+</script>
+</body>
+</html>

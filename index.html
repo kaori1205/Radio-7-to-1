@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RADIO 7 TO 1 — Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bad+Script&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/retro-computer" rel="stylesheet">
+  <style>
+    :root {
+      --blue: #123685;
+      --blue-deep: #0d2868;
+      --blue-light: rgba(18, 54, 133, 0.08);
+      --cream: #fbf8f2;
+      --white: #ffffff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      min-height: 100%;
+      background: var(--cream);
+      color: var(--blue);
+      font-family: 'Space Mono', monospace;
+    }
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 0 70px;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background: repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(18,54,133,.015) 2px,rgba(18,54,133,.015) 4px);
+      pointer-events: none; z-index: 999;
+    }
+    .page { width: 100%; max-width: 640px; padding: 0 18px; }
+
+    /* HERO */
+    .hero { width: 100%; max-width: 640px; padding: 60px 18px 40px; text-align: center; }
+    .hero-eyebrow { font-size: 10px; letter-spacing: 4px; opacity: .5; margin-bottom: 16px; animation: fadeInUp .6s ease both; }
+    h1 {
+      font-family: 'Retro Computer','Press Start 2P',sans-serif;
+      font-size: clamp(28px,8vw,52px); letter-spacing: 2px; line-height: 1.25;
+      font-weight: 400; margin-bottom: 10px; animation: fadeInUp .7s ease .1s both;
+    }
+    .hero-sub { font-size: 11px; letter-spacing: 3px; opacity: .6; margin-bottom: 36px; animation: fadeInUp .7s ease .2s both; }
+
+    /* WELCOME CARD */
+    .welcome-card {
+      background: var(--white); border: 2px dotted var(--blue); border-radius: 18px;
+      padding: 28px 24px; margin-bottom: 36px; position: relative; overflow: hidden;
+      animation: fadeInUp .8s ease .3s both;
+    }
+    .welcome-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: repeating-linear-gradient(90deg,var(--blue) 0,var(--blue) 4px,transparent 4px,transparent 8px);
+      opacity: .3;
+    }
+    .wc-label { font-size: 9px; letter-spacing: 3px; opacity: .4; margin-bottom: 14px; }
+    .wc-title { font-family: 'Retro Computer','Press Start 2P',sans-serif; font-size: clamp(16px,4vw,22px); line-height: 1.5; margin-bottom: 14px; }
+    .wc-body { font-size: 12px; letter-spacing: 1px; line-height: 1.8; opacity: .75; margin-bottom: 10px; text-align: left; }
+    .wc-divider {
+      height: 1px;
+      background: repeating-linear-gradient(90deg,var(--blue) 0,var(--blue) 3px,transparent 3px,transparent 7px);
+      opacity: .2; margin: 18px 0;
+    }
+    .wc-meta { display: flex; justify-content: space-between; font-size: 9px; letter-spacing: 2px; opacity: .4; }
+    .status-dot {
+      display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+      background: #00c16e; box-shadow: 0 0 5px rgba(0,193,110,.6);
+      margin-right: 5px; animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity:1; box-shadow: 0 0 5px rgba(0,193,110,.6); }
+      50% { opacity:.5; box-shadow: 0 0 2px rgba(0,193,110,.3); }
+    }
+
+    @keyframes fadeInUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── HEADER ── */
+.r71-header {
+  background: var(--cream);
+  border-bottom: 1.5px dotted rgba(18,54,133,.25);
+  position: sticky; top: 0; z-index: 100;
+  width: 100%;
+}
+.r71-header::before {
+  content: '';
+  display: block; height: 3px;
+  background: repeating-linear-gradient(90deg, var(--blue) 0, var(--blue) 4px, transparent 4px, transparent 9px);
+  opacity: .25;
+}
+.r71-header-inner {
+  max-width: 100%; margin: 0;
+  padding: 0 32px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 52px;
+}
+.r71-logo {
+  font-family: 'Retro Computer','Press Start 2P',sans-serif;
+  font-size: 13px; letter-spacing: 1px; color: var(--blue);
+  text-decoration: none; line-height: 1; font-weight: 400;
+  flex-shrink: 0;
+}
+.r71-logo span {
+  font-size: 9px; letter-spacing: 3px; opacity: .45;
+  display: block; margin-top: 2px; font-family: 'Space Mono', monospace;
+}
+.r71-nav { display: flex; align-items: center; gap: 2px; }
+.r71-nav a {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: 2px;
+  color: var(--blue); text-decoration: none;
+  padding: 6px 11px; border-radius: 20px;
+  opacity: .5; transition: all .15s; white-space: nowrap;
+}
+.r71-nav a:hover { opacity: 1; background: rgba(18,54,133,.07); }
+.r71-nav a.active { opacity: 1; background: var(--blue); color: var(--cream); }
+.r71-nav a.r71-ticket {
+  background: var(--blue); color: var(--cream);
+  opacity: 1; margin-left: 6px; padding: 6px 13px;
+}
+.r71-nav a.r71-ticket:hover { background: var(--blue-deep); }
+.r71-nav a.r71-ticket.active { background: var(--blue-deep); }
+.r71-hamburger {
+  display: none;
+  background: none; border: 1.5px dotted rgba(18,54,133,.4);
+  border-radius: 8px; padding: 6px 9px; cursor: pointer;
+  color: var(--blue); font-size: 14px; line-height: 1;
+  font-family: 'Space Mono', monospace;
+}
+.r71-mobile-menu {
+  display: none;
+  background: var(--white);
+  border-bottom: 1.5px dotted rgba(18,54,133,.2);
+  padding: 8px 18px 12px;
+}
+.r71-mobile-menu.open { display: block; }
+.r71-mobile-menu a {
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px; letter-spacing: 2px;
+  color: var(--blue); text-decoration: none;
+  padding: 11px 8px;
+  border-bottom: 1px dotted rgba(18,54,133,.12);
+  opacity: .6; transition: opacity .12s;
+}
+.r71-mobile-menu a:last-child { border-bottom: none; }
+.r71-mobile-menu a:hover, .r71-mobile-menu a.active { opacity: 1; }
+.r71-mobile-menu a.active { font-weight: 700; }
+.r71-mobile-menu a .r71-micon { min-width: 20px; }
+@media (max-width: 480px) {
+  .r71-nav { display: none !important; }
+  .r71-hamburger { display: block !important; }
+}
+
+  </style>
+</head>
+<body>
+
+<header class="r71-header">
+  <div class="r71-header-inner">
+    <a href="index.html" class="r71-logo">
+      RADIO 7 TO 1
+      <span>SINCE 2026</span>
+    </a>
+    <nav class="r71-nav">
+      <a href="index.html">HOME</a>
+      <a href="schedule.html">SCHEDULE</a>
+      <a href="artists.html">HOST</a>
+      <a href="about.html">ABOUT</a>
+      <a href="ticket.html" class="r71-ticket">TICKET FM01</a>
+    </nav>
+    <button class="r71-hamburger" id="r71HamburgerBtn" aria-label="Mở menu">☰</button>
+  </div>
+  <nav class="r71-mobile-menu" id="r71MobileMenu">
+    <a href="index.html"></span>HOME</a>
+    <a href="schedule.html"></span>SCHEDULE</a>
+    <a href="artists.html"></span>HOST</a>
+    <a href="about.html"></span>ABOUT</a>
+    <a href="ticket.html" class="r71-ticket"></span>TICKET FM01</a>
+  </nav>
+</header>
+
+  <div class="hero page">
+    <h1>RADIO 7 TO 1</h1>
+    <p class="hero-sub">Chào mừng đến với đài phát thanh điện tử</p>
+    <div class="welcome-card">
+      <p class="wc-label">// LỜI CHÀO ĐẦU //</p>
+      <p class="wc-title">HELLO, RIZER_</p>
+      <p class="wc-body">
+        Đài phát thanh điện tử xin kính chào quý khán giả đang nghe chương trình Radio 7 to 1 tại tần số 127.721HMZ.
+      </p>
+      <p class="wc-body">
+        Chúc các bạn sẽ có những phút giây thư giãn và được hoà mình vào từng giai điệu trong chương trình.
+      </p>
+      <p class="wc-body" style="margin-bottom:20px">
+        Xin cảm ơn các bạn đã lắng nghe!
+      </p>
+      <div class="wc-divider"></div>
+      <div class="wc-meta">
+        <span>bought by kaori1205</span>
+        <span>bought by _n.t.a.d__</span>
+      </div>
+    </div>
+  </div>
+
+
+<script>
+  (function() {
+    var current = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.r71-nav a, .r71-mobile-menu a').forEach(function(a) {
+      if (a.getAttribute('href') === current) a.classList.add('active');
+    });
+    var btn = document.getElementById('r71HamburgerBtn');
+    var menu = document.getElementById('r71MobileMenu');
+    if (btn && menu) {
+      btn.addEventListener('click', function() {
+        var isOpen = menu.classList.toggle('open');
+        btn.textContent = isOpen ? '✕' : '☰';
+      });
+    }
+  })();
+</script>
+</body>
+</html>
