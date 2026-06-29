@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FM127.01HMZ &mdash; Tao ve cua ban</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Mono&family=Bad+Script&family=Press+Start+2P&display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/retro-computer" rel="stylesheet">
+  <style>
+    :root {
+      --blue: #123685;
+      --blue-deep: #0d2868;
+      --cream: #fbf8f2;
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+    }
+
+    body {
+  background: var(--cream);
+  color: var(--blue);
+  font-family: 'Space Mono', monospace;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 0 70px;
+}
+
+    .page {
+      width: 100%;
+      max-width: 600px;
+      padding: 0 18px;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      letter-spacing: 2px;
+      margin-bottom: 18px;
+      width: 100%;
+    }
+
+    .topbar .line {
+      flex: 1;
+      height: 1px;
+      background: var(--blue);
+    }
+
+    .topbar .diamond {
+      width: 6px;
+      height: 6px;
+      background: var(--blue);
+      transform: rotate(45deg);
+      flex: 0 0 auto;
+    }
+
+    h1 {
+      font-family: 'Retro Computer', 'Press Start 2P', sans-serif;
+      font-size: clamp(26px, 7.5vw, 42px);
+      letter-spacing: 1px;
+      margin: 0;
+      line-height: 1.3;
+      font-weight: 400;
+      text-align: center;
+    }
+
+    .host-line {
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 3px;
+      color: var(--blue);
+      opacity: 0.8;
+      margin-top: 2px;
+      text-align: center;
+    }
+
+    .subtitle {
+      font-size: 11px;
+      letter-spacing: 1px;
+      opacity: .7;
+      margin-top: 28px;
+      font-family: 'Space Mono', monospace;
+      text-align: center;
+    }
+
+    /* ===== INPUT CARD ===== */
+    .input-card {
+      background: var(--white);
+      border: 2px dotted var(--blue);
+      border-radius: 18px;
+      padding: 24px 22px;
+      margin-bottom: 24px;
+    }
+
+    .input-card label {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .name-field {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .name-field .prefix {
+      font-size: 14px;
+      font-weight: 700;
+      font-family: 'Space Mono', monospace;
+    }
+
+    #nameInput {
+      flex: 1;
+      border: none;
+      border-bottom: 2px dotted var(--blue);
+      background: transparent;
+      font-family: 'Bad Script', cursive;
+      font-size: 20px;
+      letter-spacing: 0.02em;
+      color: var(--blue);
+      text-align: center;
+      padding: 6px 4px;
+      outline: none;
+      min-width: 0;
+    }
+
+    #nameInput::placeholder {
+      color: rgba(18, 54, 133, .35);
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+    }
+
+    #nameInput:focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 3px;
+    }
+
+    .reveal-btn {
+      display: block;
+      width: 100%;
+      margin-top: 18px;
+      padding: 15px;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: background .15s;
+    }
+
+    .reveal-btn:hover {
+      background: var(--blue-deep);
+    }
+
+    .reveal-btn:disabled {
+      background: var(--blue-deep);
+      opacity: .75;
+      cursor: not-allowed;
+    }
+
+    .reveal-btn .cursor-blink {
+      display: inline-block;
+      animation: blinkCursor 1s steps(1) infinite;
+    }
+
+    @keyframes blinkCursor {
+
+      0%,
+      50% {
+        opacity: 1;
+      }
+
+      50.01%,
+      100% {
+        opacity: 0;
+      }
+    }
+
+    .char-counter {
+      text-align: right;
+      font-size: clamp(9px, 2.5vw, 11px);
+      letter-spacing: clamp(0.5px, 0.3vw, 1px);
+      font-family: 'Space Mono', monospace;
+      opacity: .5;
+      margin-top: 4px;
+      margin-bottom: 14px;
+      padding-right: 2px;
+      line-height: 1;
+      transition: color .15s, opacity .15s;
+      user-select: none;
+    }
+
+    .char-counter.is-near-limit {
+      color: #c0392b;
+      opacity: .85;
+    }
+
+    /* ===== PRINTER WIDGET ===== */
+    #printModal {
+      display: none !important;
+    }
+
+    #printerWidget {
+      display: none;
+      position: relative;
+      margin: 0 auto 8px;
+      width: 100%;
+      font-family: 'Space Mono', monospace;
+      z-index: 20;
+    }
+
+    #printerWidget.active {
+      display: block;
+    }
+
+    /* ── Thân máy — cream/white, viền blue dotted khớp theme ── */
+    .pw-body {
+      background: var(--white);
+      border: 2px solid var(--blue);
+      border-radius: 12px 12px 0 0;
+      padding: 14px 18px 0;
+      position: relative;
+    }
+
+    /* ── Header row: brand + status dots ── */
+    .pw-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .pw-brand {
+      font-size: 9px;
+      letter-spacing: 3px;
+      color: var(--blue);
+      opacity: .5;
+    }
+
+    .pw-leds {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .pw-led {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(18, 54, 133, .15);
+      border: 1.5px solid rgba(18, 54, 133, .2);
+      transition: background .15s, box-shadow .15s;
+    }
+
+    .pw-led.on-green {
+      background: #00c16e;
+      border-color: #00c16e;
+      box-shadow: 0 0 6px rgba(0, 193, 110, .5);
+    }
+
+    .pw-led.on-amber {
+      background: #f5a623;
+      border-color: #f5a623;
+      box-shadow: 0 0 6px rgba(245, 166, 35, .5);
+    }
+
+    .pw-led.blink-amber {
+      animation: ledBlinkAmber .5s steps(1) infinite;
+    }
+
+    @keyframes ledBlinkAmber {
+
+      0%,
+      100% {
+        background: #f5a623;
+        border-color: #f5a623;
+        box-shadow: 0 0 6px rgba(245, 166, 35, .5);
+      }
+
+      50% {
+        background: rgba(18, 54, 133, .15);
+        border-color: rgba(18, 54, 133, .2);
+        box-shadow: none;
+      }
+    }
+
+    /* ── Status display — monospace, blue on cream ── */
+    .pw-lcd-wrap {
+      border: 1.5px dotted var(--blue);
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+      background: var(--cream);
+      position: relative;
+    }
+
+
+
+    .pw-status {
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--blue);
+      line-height: 1.4;
+      min-height: 16px;
+    }
+
+    .pw-status-sub {
+      font-size: 9px;
+      letter-spacing: 1px;
+      color: var(--blue);
+      opacity: .5;
+      margin-top: 2px;
+    }
+
+    /* cursor nhấp nháy */
+    .pw-lcd-wrap.cursor-on .pw-status::after {
+      content: '▌';
+      animation: cursorBlink .7s steps(1) infinite;
+      margin-left: 1px;
+    }
+
+    @keyframes cursorBlink {
+
+      0%,
+      49% {
+        opacity: 1
+      }
+
+      50%,
+      100% {
+        opacity: 0
+      }
+    }
+
+    /* ── Printhead track ── */
+    .pw-head-track {
+      height: 4px;
+      background: rgba(18, 54, 133, .08);
+      border-radius: 2px;
+      margin-bottom: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pw-head {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: -25%;
+      width: 25%;
+      background: linear-gradient(90deg,
+          transparent, rgba(18, 54, 133, .5) 40%,
+          var(--blue) 50%,
+          rgba(18, 54, 133, .5) 60%, transparent);
+      opacity: 0;
+    }
+
+    .pw-head.scanning {
+      opacity: 1;
+      animation: headScan .5s linear infinite;
+    }
+
+    @keyframes headScan {
+      0% {
+        left: -25%
+      }
+
+      100% {
+        left: 100%
+      }
+    }
+
+    /* ── Khe giấy — viền dưới của body ── */
+    .pw-slot-area {
+      height: 14px;
+      background: var(--cream);
+      border-top: 1.5px dotted var(--blue);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0;
+      margin: 0 -12px;
+    }
+
+    .pw-slot-area::before {
+      content: '— — — — — — — — — — — — —';
+      font-size: 7px;
+      letter-spacing: 1px;
+      color: var(--blue);
+      opacity: .2;
+    }
+
+    .pw-slot-paper-peek {
+      position: absolute;
+      inset: 3px 20px;
+      background: #fff;
+      border-radius: 1px;
+      opacity: 0;
+      transition: opacity .3s;
+    }
+
+    .pw-slot-area.feeding .pw-slot-paper-peek {
+      opacity: 1;
+    }
+
+    /* ══════════════════════════════════════════════════
+   PAPER EJECT
+   Cơ chế: pw-paper-wrap overflow:hidden, height = 0.
+   Khi ejecting: height → chiều cao vé (transition 3s).
+   pw-paper bắt đầu translateY(-100%) → translateY(0)
+   cùng tốc độ → vé trượt RA từ khe xuống dưới.
+   ══════════════════════════════════════════════════ */
+    .pw-paper-wrap {
+      overflow: hidden;
+      height: 0;
+      transition: height 3s cubic-bezier(0.33, 0, 0.66, 1);
+      position: relative;
+      margin: 0 -20px;
+      padding: 0 20px;
+    }
+
+    .pw-paper-wrap.ejecting {
+      height: var(--paper-height, 600px);
+    }
+
+    /* Vé bắt đầu ẩn TRÊN khe (translateY âm),
+   trượt XUỐNG vào tầm nhìn → đúng hướng giấy ra khỏi máy */
+    .pw-paper {
+      background: transparent;
+      transform: translateY(-100%);
+      transition: transform 3s cubic-bezier(0.33, 0, 0.66, 1);
+    }
+
+    .pw-paper-wrap.ejecting .pw-paper {
+      transform: translateY(0%);
+    }
+
+    .pw-paper-inner {
+      padding: 8px;
+    }
+
+    .pw-print-line {
+      position: absolute;
+      top: 0;
+      left: 28px;
+      right: 28px;
+      height: 2px;
+      background: linear-gradient(90deg,
+          transparent, rgba(18, 54, 133, .4) 20%,
+          var(--blue) 50%,
+          rgba(18, 54, 133, .4) 80%, transparent);
+      box-shadow: 0 0 8px rgba(18, 54, 133, .3);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .pw-paper-wrap.ejecting .pw-print-line {
+      animation: printLineFade 3s cubic-bezier(0.33, 0, 0.66, 1) forwards;
+    }
+
+    @keyframes printLineFade {
+      0% {
+        opacity: 0;
+      }
+
+      3% {
+        opacity: 1;
+      }
+
+      93% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+      }
+    }
+
+    /* Clone bình thường */
+    .flip-card-clone-wrap {
+      opacity: 1;
+    }
+
+    .pw-tearoff {
+      height: 0;
+      border-top: 2px dotted var(--blue);
+      opacity: 0;
+      transition: opacity .4s 2.5s;
+      margin: 0 8px;
+    }
+
+    .pw-paper-wrap.ejecting .pw-tearoff {
+      opacity: 1;
+    }
+
+    @keyframes blinkText {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: 0
+      }
+    }
+
+    /* Printer body */
+    .printer-body {
+      width: min(280px, 80vw);
+      background: #1a2a5e;
+      border: 3px solid #2a4aaa;
+      border-radius: 12px 12px 6px 6px;
+      padding: 14px 16px 10px;
+      box-shadow: 0 0 0 1px #0d1a40, 0 8px 32px rgba(0, 0, 0, .6),
+        inset 0 1px 0 rgba(255, 255, 255, .08);
+      position: relative;
+    }
+
+    .printer-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .printer-label {
+      font-family: 'Space Mono', monospace;
+      color: #7ec8ff;
+      font-size: 9px;
+      letter-spacing: 3px;
+    }
+
+    .printer-led {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #00ff88;
+      box-shadow: 0 0 6px #00ff88;
+      animation: ledPulse 1s ease-in-out infinite;
+    }
+
+    @keyframes ledPulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        box-shadow: 0 0 6px #00ff88;
+      }
+
+      50% {
+        opacity: .4;
+        box-shadow: 0 0 2px #00ff88;
+      }
+    }
+
+    /* Paper slot */
+    .printer-slot {
+      background: #0a1030;
+      border-radius: 4px;
+      height: 12px;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 2px;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, .8);
+    }
+
+    .printer-slot::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(90deg,
+          transparent 0, transparent 3px,
+          rgba(255, 255, 255, .03) 3px, rgba(255, 255, 255, .03) 4px);
+    }
+
+    /* Paper emerging */
+    .paper-container {
+      display: flex;
+      justify-content: center;
+      overflow: hidden;
+      /* height grows via JS */
+      transition: none;
+      margin-top: 0;
+    }
+
+    .paper {
+      width: min(240px, 70vw);
+      background: #f5f0e8;
+      border-radius: 0 0 4px 4px;
+      overflow: hidden;
+      position: relative;
+      /* horizontal dotted perforations */
+    }
+
+    .paper::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: repeating-linear-gradient(90deg,
+          rgba(18, 54, 133, .25) 0, rgba(18, 54, 133, .25) 4px,
+          transparent 4px, transparent 8px);
+    }
+
+    .paper img {
+      display: block;
+      width: 100%;
+      height: auto;
+      transform-origin: top center;
+    }
+
+    .printer-status {
+      font-family: 'Space Mono', monospace;
+      color: #7ec8ff;
+      font-size: 8px;
+      letter-spacing: 2px;
+      text-align: center;
+      margin-top: 10px;
+      min-height: 14px;
+      overflow: hidden;
+    }
+
+    .printer-status span {
+      display: inline-block;
+      animation: statusScroll 0.1s linear;
+    }
+
+    /* ===== TICKET SECTION ===== */
+    .ticket-section {
+      margin-bottom: 22px;
+    }
+
+    .ticket-section[hidden] {
+      display: none !important;
+    }
+
+    /* Capture area */
+    #ticketCapture {
+      background: var(--cream);
+      padding: 8px;
+      border-radius: 18px;
+    }
+
+    /* Flip card */
+    .flip-card {
+      width: 100%;
+      position: relative;
+      perspective: 1500px;
+    }
+
+    .flip-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transform-style: preserve-3d;
+      /* 🌟 Hiệu ứng nảy kiểu Apple: Vé lật xong sẽ lắc nhẹ một cái cực nịnh mắt */
+      transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: grab;
+    }
+
+    .flip-inner:active {
+      cursor: grabbing;
+    }
+
+    /* 2. Cập nhật class .flip-card để chuẩn bị cho hiệu ứng bóng đổ động */
+    .flip-card {
+      perspective: 1500px;
+      /* Tăng độ sâu 3D để cạnh vé lao về phía mắt rõ hơn khi xoay */
+      filter: none;
+      transition: filter 0.3s ease;
+    }
+
+    /* 3. Thêm mới class này: Khi đang kéo, bóng đổ sẽ mờ rộng ra tạo cảm giác vé được nhấc lên cao */
+    .flip-card.is-dragging {
+      filter: none;
+    }
+
+    .ticket-face-card {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 0 0 1px rgba(18, 54, 133, .18);
+      background: #fff;
+      width: 100%;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      container-type: inline-size;
+    }
+
+    /* Ẩn nền trắng và viền của vé bản clone (khi đang chui ra từ máy in) */
+    .flip-card-clone-wrap .ticket-face-card {
+      background: transparent !important;
+      box-shadow: none !important;
+    }
+
+    /* Xóa hoàn toàn bóng đổ của vé clone để không bị lem màu đen khi đang trượt ra */
+    .flip-card-clone-wrap .flip-card {
+      filter: none !important;
+    }
+
+    .ticket-face-card.back-face {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      transform: rotateY(180deg);
+    }
+
+    .ticket-face-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+      pointer-events: none;
+      -webkit-user-drag: none;
+    }
+
+    .name-overlay {
+      position: absolute;
+      left: 14%;
+      width: 45%;
+
+      top: 27%;
+      height: 10.5%;
+
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+
+      overflow: visible;
+      white-space: nowrap;
+      font-family: 'Bad Script', cursive;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      color: var(--blue);
+      text-align: center;
+      font-size: clamp(10px, 4cqw, 20px);
+
+      padding-bottom: 0cqw;
+    }
+
+    /* Drag hint */
+    .drag-hint {
+      text-align: center;
+      margin-top: 10px;
+      margin-bottom: 14px;
+      font-size: 10px;
+      letter-spacing: 1px;
+      opacity: .55;
+      font-family: 'Space Mono', monospace;
+    }
+
+    /* download button removed */
+
+
+
+    /* ============================================================
+   BẢN FULL: KHỬ VIỀN ĐEN & HIỆU ỨNG ĐÙN VÉ 3D MƯỢT MÀ
+   ============================================================ */
+
+    /* =====================================================
+   TICKET SECTION — hiển thị bình thường sau khi in xong
+   ===================================================== */
+    .ticket-section {
+      position: relative;
+      width: 100% !important;
+      max-width: none !important;
+      margin: 22px auto 0 auto !important;
+      perspective: 2500px !important;
+    }
+
+    /* Khi đang in: ẩn flip-card gốc (sẽ clone vào máy in) */
+    .ticket-section.is-printing .flip-card {
+      visibility: hidden;
+    }
+
+    /* Sau khi in xong: hiện flip-card mượt */
+    @keyframes ticketReveal {
+      0% {
+        opacity: 0;
+        scale: 0.97;
+        filter: blur(4px);
+      }
+
+      60% {
+        opacity: 1;
+        filter: blur(0px);
+      }
+
+      80% {
+        scale: 1.012;
+      }
+
+      100% {
+        opacity: 1;
+        scale: 1;
+        filter: blur(0px);
+      }
+    }
+
+    @keyframes dragHintReveal {
+      0% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 0.55;
+      }
+    }
+
+    .ticket-section.reveal-done .flip-card {
+      visibility: visible;
+      animation: ticketReveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .ticket-section.reveal-done .drag-hint {
+      animation: dragHintReveal 0.5s ease 0.45s both;
+    }
+
+    /* Ẩn các thành phần phụ khi in */
+    .ticket-section.is-printing .drag-hint {
+      opacity: 0;
+      transition: opacity .3s;
+    }
+
+/* ── HEADER ── */
+.r71-header {
+  background: var(--cream);
+  border-bottom: 1.5px dotted rgba(18,54,133,.25);
+  position: sticky; top: 0; z-index: 100;
+  width: 100%;
+}
+.r71-header::before {
+  content: '';
+  display: block; height: 3px;
+  background: repeating-linear-gradient(90deg, var(--blue) 0, var(--blue) 4px, transparent 4px, transparent 9px);
+  opacity: .25;
+}
+.r71-header-inner {
+  max-width: 100%; margin: 0;
+  padding: 0 32px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 52px;
+}
+.r71-logo {
+  font-family: 'Retro Computer','Press Start 2P',sans-serif;
+  font-size: 13px; letter-spacing: 1px; color: var(--blue);
+  text-decoration: none; line-height: 1; font-weight: 400;
+  flex-shrink: 0;
+}
+.r71-logo span {
+  font-size: 9px; letter-spacing: 3px; opacity: .45;
+  display: block; margin-top: 2px; font-family: 'Space Mono', monospace;
+}
+.r71-nav { display: flex; align-items: center; gap: 2px; }
+.r71-nav a {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: 2px;
+  color: var(--blue); text-decoration: none;
+  padding: 6px 11px; border-radius: 20px;
+  opacity: .5; transition: all .15s; white-space: nowrap;
+}
+.r71-nav a:hover { opacity: 1; background: rgba(18,54,133,.07); }
+.r71-nav a.active { opacity: 1; background: var(--blue); color: var(--cream); }
+.r71-nav a.r71-ticket {
+  background: var(--blue); color: var(--cream);
+  opacity: 1; margin-left: 6px; padding: 6px 13px;
+}
+.r71-nav a.r71-ticket:hover { background: var(--blue-deep); }
+.r71-nav a.r71-ticket.active { background: var(--blue-deep); }
+.r71-hamburger {
+  display: none;
+  background: none; border: 1.5px dotted rgba(18,54,133,.4);
+  border-radius: 8px; padding: 6px 9px; cursor: pointer;
+  color: var(--blue); font-size: 14px; line-height: 1;
+  font-family: 'Space Mono', monospace;
+}
+.r71-mobile-menu {
+  display: none;
+  background: var(--white);
+  border-bottom: 1.5px dotted rgba(18,54,133,.2);
+  padding: 8px 18px 12px;
+}
+.r71-mobile-menu.open { display: block; }
+.r71-mobile-menu a {
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px; letter-spacing: 2px;
+  color: var(--blue); text-decoration: none;
+  padding: 11px 8px;
+  border-bottom: 1px dotted rgba(18,54,133,.12);
+  opacity: .6; transition: opacity .12s;
+}
+.r71-mobile-menu a:last-child { border-bottom: none; }
+.r71-mobile-menu a:hover, .r71-mobile-menu a.active { opacity: 1; }
+.r71-mobile-menu a.active { font-weight: 700; }
+.r71-mobile-menu a .r71-micon { min-width: 20px; }
+@media (max-width: 480px) {
+  .r71-nav { display: none !important; }
+  .r71-hamburger { display: block !important; }
+}
+
+  </style>
+</head>
+
+<body>
+
+<header class="r71-header">
+  <div class="r71-header-inner">
+    <a href="index.html" class="r71-logo">
+      RADIO 7 TO 1
+      <span>SINCE 2026</span>
+    </a>
+    <nav class="r71-nav">
+      <a href="index.html">HOME</a>
+      <a href="schedule.html">SCHEDULE</a>
+      <a href="host.html">HOST</a>
+      <a href="about.html">ABOUT</a>
+      <a href="fm-01.html" class="r71-ticket">TICKET FM01</a>
+    </nav>
+    <button class="r71-hamburger" id="r71HamburgerBtn" aria-label="Mở menu">☰</button>
+  </div>
+  <nav class="r71-mobile-menu" id="r71MobileMenu">
+    <a href="index.html"></span>HOME</a>
+    <a href="schedule.html"></span>SCHEDULE</a>
+    <a href="host.html"></span>HOST</a>
+    <a href="about.html"></span>ABOUT</a>
+    <a href="fm-01.html" class="r71-ticket"></span>TICKET FM01</a>
+  </nav>
+</header>
+
+  <div class="page">
+    <header>
+      <h1>FM127.01HMZ</h1>
+      <div class="host-line">Host: UPRIZE</div>
+      <p class="subtitle">NHẬP TÊN ĐỂ HOÀN THIỆN VÉ CỦA BẠN</p>
+    </header>
+
+    <div class="input-card">
+      <label for="nameInput">TO. (TÊN CỦA BẠN)</label>
+      <div class="name-field">
+        <span class="prefix">To.</span>
+        <input id="nameInput" type="text" maxlength="20" placeholder="...................." autocomplete="off" />
+
+      </div>
+      <div class="char-counter" id="charCounter">0/20</div>
+      <button id="revealBtn" class="reveal-btn" type="button">XUẤT VÉ</button>
+    </div>
+
+    <!-- Printer Widget -->
+    <div id="printerWidget" style="margin-bottom:8px;">
+      <div class="pw-body">
+        <div class="pw-top">
+          <span class="pw-brand">FM127.01HMZ TICKET SYSTEM</span>
+          <div class="pw-leds">
+            <div class="pw-led" id="ledPwr"></div>
+            <div class="pw-led" id="ledAct"></div>
+            <div class="pw-led" id="ledErr"></div>
+          </div>
+        </div>
+        <div class="pw-lcd-wrap" id="pwLcd">
+          <div class="pw-status" id="pwStatus">READY</div>
+          <div class="pw-status-sub" id="pwStatusSub"></div>
+        </div>
+        <div class="pw-head-track">
+          <div class="pw-head" id="pwHead"></div>
+        </div>
+        <div class="pw-slot-area" id="pwSlotArea">
+          <div class="pw-slot-paper-peek"></div>
+        </div>
+      </div>
+      <!-- Vé trượt ra từ khe xuống dưới -->
+      <div class="pw-paper-wrap" id="pwPaperWrap">
+        <div class="pw-print-line" id="pwPrintLine"></div>
+        <div class="pw-paper" id="pwPaper">
+          <div class="pw-paper-inner">
+            <div class="flip-card-clone-wrap" id="pwCloneWrap"></div>
+          </div>
+        </div>
+        <div class="pw-tearoff"></div>
+      </div>
+    </div>
+
+    <!-- Ticket section -->
+    <div class="ticket-section" id="ticketSection" hidden>
+      <div id="ticketCapture">
+        <div class="flip-card" id="flipCard">
+          <div class="flip-inner" id="flipInner">
+            <!-- Front face -->
+            <div class="ticket-face-card front-face">
+              <img src="images/MT-1.png"
+                alt="Mat truoc ticket FM127.01HMZ" />
+            </div>
+            <!-- Back face -->
+            <div class="ticket-face-card back-face">
+              <img src="images/MS-1.png"
+                alt="Mat sau ticket FM127.01HMZ" />
+              <div class="name-overlay" id="nameOverlay"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="drag-hint">&#8592;&#8594; KÉO NGANG ĐỂ LẬT VÉ &nbsp;|&nbsp; SWIPE TO FLIP</div>
+    </div>
+
+  </div>
+
+
+  <script>
+    // ============================================================
+    // Elements
+    // ============================================================
+    const nameInput = document.getElementById('nameInput');
+    const nameOverlay = document.getElementById('nameOverlay');
+    const revealBtn = document.getElementById('revealBtn');
+    const printerOverlay = document.getElementById('printerOverlay');
+    const ticketSection = document.getElementById('ticketSection');
+    const flipCard = document.getElementById('flipCard');
+    const flipInner = document.getElementById('flipInner');
+    const paperContainer = document.getElementById('paperContainer');
+    const paperEl = document.getElementById('paperEl');
+    const paperImg = document.getElementById('paperImg');
+    const statusText = document.getElementById('statusText');
+    const charCounter = document.getElementById('charCounter');
+
+    let isFlipped = false;
+    let currentAngle = 0;   // 0 = front, 180 = back
+    let isPrinting = false; // chặn double-submit khi máy in đang chạy
+
+    function setDragTransition(on) {
+      flipInner.style.transition = on
+        ? 'transform 0.5s cubic-bezier(.4,0,.2,1)'
+        : 'none';
+    }
+
+    // ============================================================
+    // Sync flip-card height (so back-face aligns with front-face)
+    // ============================================================
+    function syncHeight() {
+      const frontImg = flipCard.querySelector('.front-face img');
+      if (frontImg.complete && frontImg.naturalHeight) {
+        const ratio = frontImg.naturalHeight / frontImg.naturalWidth;
+        flipCard.style.height = (flipCard.offsetWidth * ratio) + 'px';
+      }
+    }
+    window.addEventListener('resize', syncHeight);
+
+    function runPrinter(val, onComplete) {
+      // Kích hoạt callback ngay lập tức để JS đồng bộ với hiệu ứng đùn CSS mới
+      onComplete();
+    }
+
+    // ============================================================
+    // CHARACTER COUNTER
+    // ============================================================
+    function updateCharCounter() {
+      const len = nameInput.value.length;
+      charCounter.textContent = `${len}/20`;
+      charCounter.classList.toggle('is-near-limit', len >= 17);
+    }
+    nameInput.addEventListener('input', updateCharCounter);
+    updateCharCounter();
+
+    // ============================================================
+    // REVEAL BUTTON - PHIÊN BẢN 3D SIÊU THỰC & SẠCH LỖI BIẾN HOÀN TOÀN
+    // ============================================================
+    const myRevealBtn = document.getElementById('revealBtn') || document.querySelector('.reveal-btn');
+    const myTicketSection = document.getElementById('ticketSection') || document.getElementById('ticket-section');
+    const myNameInput = document.getElementById('nameInput') || document.querySelector('.input-name');
+    const myNameOverlay = document.getElementById('nameOverlay') || document.querySelector('.ticket-name');
+    const printerWidget = document.getElementById('printerWidget');
+    const pwHead = document.getElementById('pwHead');
+    const pwStatus = document.getElementById('pwStatus');
+    const pwStatusSub = document.getElementById('pwStatusSub');
+    const pwPaperWrap = document.getElementById('pwPaperWrap');
+    const pwPaper = document.getElementById('pwPaper');
+    const pwCloneWrap = document.getElementById('pwCloneWrap');
+    const pwSlotArea = document.getElementById('pwSlotArea');
+    const pwPaperPeek = document.getElementById('pwPaperPeek');
+    const pwLcd = document.getElementById('pwLcd');
+    const ledPwr = document.getElementById('ledPwr');
+    const ledAct = document.getElementById('ledAct');
+
+    let isPrinterRunning = false;
+
+    /* ─── LCD typewriter effect ─── */
+    function lcdType(el, text, delay, cb) {
+      let i = 0;
+      el.textContent = '';
+      const iv = setInterval(() => {
+        el.textContent += text[i++];
+        if (i >= text.length) { clearInterval(iv); cb && cb(); }
+      }, delay);
+    }
+
+    /* ─── Machine vibration ─── */
+    function vibrateBody(ms) {
+      const body = document.querySelector('.pw-body');
+      if (!body) return;
+      let t = 0, iv = setInterval(() => {
+        const x = (Math.random() - .5) * 1.5;
+        const y = (Math.random() - .5) * .5;
+        body.style.transform = `translate(${x}px,${y}px)`;
+        if (++t > ms / 40) { clearInterval(iv); body.style.transform = ''; }
+      }, 40);
+    }
+
+    /* ─── Vé trượt xuống + màn hình đuổi theo CHẬM HƠN một chút, có độ giật nhẹ ───
+       - velocityFraction < 0.5 → màn hình chỉ nhận một phần NHỎ HƠN tốc độ
+         giấy mọc, nên vé luôn thấy trượt nhanh hơn màn hình một chút (đúng
+         cảm giác "đuổi theo nhưng chậm hơn").
+       - Theo dõi độ "mọc" của giấy bằng offsetHeight (không phụ thuộc vị
+         trí scroll) để tránh vòng lặp tự ảnh hưởng lẫn nhau khi vừa đo vừa
+         cuộn cùng lúc.
+       - Không cuộn mượt liên tục mỗi frame — mà DỒN lại rồi "giật" ra theo
+         từng cụm nhỏ, cách nhau ~tickMs (có dao động ngẫu nhiên), mô phỏng
+         motor bước của máy in đẩy giấy ra từng nấc thật, không trơn tuột. */
+    function followPaperEject(durationMs) {
+      const velocityFraction = 0.42; // 0–1: < 0.5 nên màn hình trượt chậm hơn vé một chút
+      const marginBottom = 110; // khoảng đệm an toàn dưới đáy viewport
+      const hardOverflow = 220; // lưới an toàn: lệch quá mức này thì bù thêm để không mất vé khỏi màn hình
+      const tickMs = 70;  // khoảng cách trung bình giữa mỗi "giật" cuộn
+      const tickJitter = 36;  // dao động ngẫu nhiên quanh tickMs — giật không đều tăm tắp như motor cơ thật
+
+      const startHeight = pwPaperWrap ? pwPaperWrap.offsetHeight : 0;
+      let appliedScroll = 0;
+      let nextTick = 0;
+      const start = performance.now();
+
+      function step(now) {
+        if (pwPaperWrap) {
+          // Giấy đã mọc thêm bao nhiêu px — đo bằng offsetHeight nên không bị
+          // lệch khi chính window.scrollBy() phía dưới làm đổi vị trí trên màn hình
+          const grown = pwPaperWrap.offsetHeight - startHeight;
+          let owed = grown * velocityFraction;
+
+          const rect = pwPaperWrap.getBoundingClientRect();
+          const overflowPx = rect.bottom - (window.innerHeight - marginBottom);
+          if (overflowPx > hardOverflow) owed += overflowPx - hardOverflow;
+
+          // Chỉ "giật" cuộn theo từng cụm nhỏ tại các mốc tickMs, không cuộn mượt mỗi frame
+          if (now >= nextTick && owed - appliedScroll > 0.5) {
+            window.scrollBy(0, owed - appliedScroll);
+            appliedScroll = owed;
+            nextTick = now + tickMs + (Math.random() - 0.5) * tickJitter;
+          }
+        }
+        if (now - start < durationMs) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    /* ─── Printer sequence ─── */
+    function runPrinterSequence() {
+      if (isPrinterRunning) return;
+      isPrinterRunning = true;
+
+      // T=0 — khởi động
+      ledPwr && ledPwr.classList.add('on-amber', 'blink-amber');
+      lcdType(pwStatus, 'INITIALIZING...', 50);
+      if (pwStatusSub) pwStatusSub.textContent = 'FM127.01HMZ TICKET SYSTEM';
+      pwLcd && pwLcd.classList.add('cursor-on');
+
+      // T=450 — ready
+      setTimeout(() => {
+        ledPwr && ledPwr.classList.remove('blink-amber', 'on-amber');
+        ledPwr && ledPwr.classList.add('on-green');
+        ledAct && ledAct.classList.add('blink-amber');
+        lcdType(pwStatus, 'SYSTEM READY', 45);
+        if (pwStatusSub) pwStatusSub.textContent = 'LOADING TICKET DATA';
+        vibrateBody(300);
+      }, 450);
+
+      // T=1000 — scan dữ liệu
+      setTimeout(() => {
+        lcdType(pwStatus, 'READING DATA...', 42);
+        if (pwStatusSub) pwStatusSub.textContent = 'TICKET: FM127.01HMZ';
+        pwHead && pwHead.classList.add('scanning');
+      }, 1000);
+
+      // T=1600 — processing
+      setTimeout(() => {
+        lcdType(pwStatus, 'PROCESSING...', 48);
+        if (pwStatusSub) pwStatusSub.textContent = 'ENCODING RIZER ID';
+      }, 1600);
+
+      // T=2100 — paper feed
+      setTimeout(() => {
+        lcdType(pwStatus, 'PAPER FEED...', 45);
+        if (pwStatusSub) pwStatusSub.textContent = 'INSERTING TICKET';
+        pwSlotArea && pwSlotArea.classList.add('feeding');
+        vibrateBody(200);
+      }, 2100);
+
+      // T=2500 — PRINTING begins
+      setTimeout(() => {
+        lcdType(pwStatus, 'PRINTING...', 50);
+        if (pwStatusSub) pwStatusSub.textContent = 'LINE 1 OF 48';
+        // Clone the ticket into paper
+        const flipCardOrig = document.getElementById('flipCard');
+        if (flipCardOrig && pwCloneWrap) {
+          pwCloneWrap.innerHTML = '';
+          const clone = flipCardOrig.cloneNode(true);
+          clone.id = 'flipCardClone';
+          clone.style.cssText = 'width:100%; pointer-events:none; display:block;';
+          const fi = clone.querySelector('#flipInner');
+          if (fi) fi.style.transform = '';
+          pwCloneWrap.appendChild(clone);
+        }
+
+        // Paper ejects — smooth 3s
+        // Set chiều cao đích cho wrap trước khi bật ejecting
+        if (pwPaperWrap && pwPaper) {
+          // Tạm thời cho paper visible để đo chiều cao thật
+          pwPaper.style.transform = 'translateY(0)';
+          const h = pwPaper.offsetHeight;
+          pwPaper.style.transform = '';
+          pwPaperWrap.style.setProperty('--paper-height', h + 'px');
+        }
+        pwPaperWrap && pwPaperWrap.classList.add('ejecting');
+        pwPaper && pwPaper.classList.add('printing');
+        followPaperEject(3000); // vé trượt xuống, màn hình đuổi theo chậm hơn 1 chút + giật nhẹ như motor đẩy giấy
+
+        // vibrate cùng lúc với eject
+        vibrateBody(3000);
+      }, 2500);
+
+      // LCD line counter — chạy song song với eject (2500 → 5500)
+      let line = 1;
+      const lineIv = setInterval(() => {
+        line += 2;
+        if (pwStatusSub) pwStatusSub.textContent = `LINE ${line} OF 48`;
+        if (line >= 48) clearInterval(lineIv);
+      }, 3000 / 24);
+      setTimeout(() => clearInterval(lineIv), 5500);
+
+      // T=5300 — gần xong
+      setTimeout(() => {
+        lcdType(pwStatus, 'FINALIZING...', 45);
+        if (pwStatusSub) pwStatusSub.textContent = 'ALMOST DONE';
+        pwHead && pwHead.classList.remove('scanning');
+      }, 5300);
+
+      // T=5700 — DONE
+      setTimeout(() => {
+        ledAct && ledAct.classList.remove('blink-amber');
+        ledAct && ledAct.classList.add('on-green');
+        lcdType(pwStatus, 'TICKET READY', 45);
+        if (pwStatusSub) pwStatusSub.textContent = 'PLEASE COLLECT TICKET';
+        pwLcd && pwLcd.classList.remove('cursor-on');
+      }, 5700);
+
+      // T=6200 — máy in fade out
+      setTimeout(() => {
+        if (printerWidget) {
+          printerWidget.style.transition = 'opacity .4s ease';
+          printerWidget.style.opacity = '0';
+        }
+      }, 6200);
+
+      // T=6600 — máy in đã fade out xong → xẹp hoàn toàn khỏi layout, vé fade in đúng vị trí
+      // FIX: dùng display:none thay vì chỉ height:0 — height:0 không đủ loại element khỏi layout
+      // khi display vẫn là block (class .active). Ticket section bị đẩy xuống thấp và sau đó
+      // giật lên khi cleanup T=7600 mới xóa .active → display:none.
+      setTimeout(() => {
+        if (printerWidget) {
+          printerWidget.style.transition = 'none';
+          printerWidget.style.display = 'none';  // ← KEY FIX: xóa hoàn toàn khỏi layout flow
+          printerWidget.style.visibility = 'hidden';
+          printerWidget.style.height = '0';
+          printerWidget.style.overflow = 'hidden';
+          printerWidget.style.margin = '0';
+          printerWidget.style.padding = '0';
+        }
+        if (myTicketSection) {
+          myTicketSection.classList.remove('is-printing');
+          myTicketSection.hidden = false;
+          myTicketSection.style.transition = 'none';
+          myTicketSection.style.opacity = '0';
+          myTicketSection.getBoundingClientRect(); // force reflow — lúc này printerWidget đã display:none
+          requestAnimationFrame(() => {
+            myTicketSection.style.transition = 'opacity .4s ease';
+            myTicketSection.style.opacity = '1';
+            myTicketSection.classList.add('reveal-done');
+          });
+        }
+      }, 6600);
+
+      // T=7600 — cleanup
+      setTimeout(() => {
+        if (printerWidget) {
+          printerWidget.classList.remove('active');
+          printerWidget.style.display = '';  // reset inline display (CSS rule sẽ giữ display:none)
+          printerWidget.style.opacity = '';
+          printerWidget.style.transform = '';
+          printerWidget.style.transition = '';
+          printerWidget.style.visibility = '';
+          printerWidget.style.height = '';
+          printerWidget.style.overflow = '';
+          printerWidget.style.margin = '';
+          printerWidget.style.padding = '';
+        }
+        if (pwPaper) { pwPaper.classList.remove('printing'); }
+        if (pwPaperWrap) { pwPaperWrap.classList.remove('ejecting'); }
+        if (pwCloneWrap) { pwCloneWrap.innerHTML = ''; }
+        if (pwSlotArea) { pwSlotArea.classList.remove('feeding'); }
+        ledPwr && ledPwr.classList.remove('on-green', 'on-amber', 'blink-amber');
+        ledAct && ledAct.classList.remove('on-green', 'on-amber', 'blink-amber');
+
+        const fi = document.getElementById('flipInner');
+        if (fi) {
+          fi.style.transition = 'none';
+          fi.style.transform = 'rotateY(0deg)';
+          fi.classList.remove('flipped');
+          fi.getBoundingClientRect();
+          fi.style.transition = '';
+        }
+        if (typeof isFlipped !== 'undefined') isFlipped = false;
+        if (typeof currentAngle !== 'undefined') currentAngle = 0;
+        if (typeof setDragTransition === 'function') setDragTransition(true);
+        if (typeof syncHeight === 'function') syncHeight();
+
+        if (myTicketSection) {
+          myTicketSection.style.opacity = '';
+          myTicketSection.style.transition = '';
+        }
+        myRevealBtn && (myRevealBtn.disabled = false);
+        isPrinterRunning = false;
+      }, 7600);
+    }
+
+    if (myRevealBtn) {
+      myRevealBtn.addEventListener('click', () => {
+        if (isPrinterRunning) return;
+        const val = myNameInput ? myNameInput.value.trim() : '';
+        if (!val && myNameInput) {
+          myNameInput.focus();
+          myNameInput.style.outline = '2px solid #c0392b';
+          setTimeout(() => { myNameInput.style.outline = ''; }, 600);
+          return;
+        }
+        if (myNameOverlay) myNameOverlay.textContent = val;
+
+        // Reset flip về mặt trước NGAY KHI BẤM — trước khi clone được tạo
+        const fi = document.getElementById('flipInner');
+        if (fi) {
+          fi.style.transition = 'none';
+          fi.style.transform = 'rotateY(0deg)';
+          fi.classList.remove('flipped');
+          fi.getBoundingClientRect();
+          fi.style.transition = '';
+        }
+        if (typeof isFlipped !== 'undefined') isFlipped = false;
+        if (typeof currentAngle !== 'undefined') currentAngle = 0;
+
+        myRevealBtn.disabled = true;
+
+        if (myTicketSection) {
+          myTicketSection.hidden = true;
+          myTicketSection.classList.remove('reveal-done');
+          myTicketSection.classList.add('is-printing');
+        }
+        if (printerWidget) {
+          ledPwr && ledPwr.classList.remove('on-green', 'on-amber', 'blink-amber');
+          ledAct && ledAct.classList.remove('on-green', 'on-amber', 'blink-amber');
+          printerWidget.style.opacity = '';
+          printerWidget.style.transform = '';
+          printerWidget.classList.add('active');
+          printerWidget.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        runPrinterSequence();
+      });
+    }
+
+    // ============================================================
+    // SWIPE TO FLIP ONLY & VISUAL UPGRADES — Chỉ vuốt, bỏ ấn hoàn toàn
+    // ============================================================
+    let dragStartX = null;
+    let isDragging = false;
+    const DRAG_SENSITIVITY = 1.6; // Độ nhạy vuốt của bạn
+    const flipCardElement = document.querySelector('.flip-card'); // Lấy phần tử cha để đổi bóng đổ
+
+    function applyRotation(angle) {
+      flipInner.style.transform = `rotateY(${angle}deg)`;
+      isFlipped = Math.abs(((angle % 360) + 360) % 360 - 180) < 90;
+    }
+
+    // 1. Chặn menu chuột phải trên toàn trang
+    document.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+    });
+
+    // 2. Chặn các tổ hợp phím tắt phổ biến để lưu, in hoặc kiểm tra code
+    document.addEventListener('keydown', (e) => {
+      // Chặn phím F12 (Mở công cụ nhà phát triển để lấy link ảnh)
+      if (e.key === "F12") {
+        e.preventDefault();
+      }
+
+      // Chặn Ctrl + S (Lưu trang) và Ctrl + P (In trang / Xuất PDF)
+      if (e.ctrlKey && (e.key === 's' || e.key === 'S' || e.key === 'p' || e.key === 'P')) {
+        e.preventDefault();
+      }
+
+      // Chặn Ctrl + Shift + I hoặc C hoặc J (Mở Inspect Element)
+      if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) {
+        e.preventDefault();
+      }
+
+      // Chặn Ctrl + U (Xem nguồn trang - View Source)
+      if (e.ctrlKey && (e.key === 'u' || e.key === 'U')) {
+        e.preventDefault();
+      }
+    });
+
+    function snapToNearest(angle) {
+      const draggedAngle = angle - currentAngle;
+      let targetOffset = 0;
+
+      // Giữ nguyên mốc kích hoạt 3° siêu bén bạn đã chọn (90 - 3 = 87)
+      if (draggedAngle > 0) {
+        targetOffset = Math.round((draggedAngle + 87) / 180) * 180;
+      } else {
+        targetOffset = Math.round((draggedAngle - 87) / 180) * 180;
+      }
+
+      // Thuật toán lũy tiến liên tục chống xoay lỗi trên PC
+      const target = currentAngle + targetOffset;
+      currentAngle = target;
+      isFlipped = Math.abs(((target % 360) + 360) % 360 - 180) < 90;
+
+      setDragTransition(true);
+      applyRotation(target);
+      flipInner.classList.toggle('flipped', isFlipped);
+    }
+
+    function onDragStart(x) {
+      dragStartX = x;
+      isDragging = true;
+      setDragTransition(false);
+
+      // 🌟 HIỆU ỨNG: Khi chạm tay kéo, kích hoạt bóng đổ nhấc lên cao
+      if (flipCardElement) flipCardElement.classList.add('is-dragging');
+    }
+
+    function onDragMove(x) {
+      if (!isDragging || dragStartX === null) return;
+      const delta = x - dragStartX;
+      applyRotation(currentAngle + delta * DRAG_SENSITIVITY);
+    }
+
+    const CLICK_THRESHOLD = 6; // px — kéo ít hơn ngần này thì coi là click/tap, không phải kéo
+
+    function onDragEnd(x) {
+      if (!isDragging || dragStartX === null) return;
+      const delta = x - dragStartX;
+
+      isDragging = false;
+      dragStartX = null;
+
+      // 🌟 HIỆU ỨNG: Thả tay ra, bóng đổ tiếp đất mượt mà cùng nhịp nảy của vé
+      if (flipCardElement) flipCardElement.classList.remove('is-dragging');
+
+      if (Math.abs(delta) < CLICK_THRESHOLD) {
+        // Click/tap đơn giản (không kéo) — vẫn lật vé, hỗ trợ user desktop không quen kéo
+        const target = currentAngle + 180;
+        currentAngle = target;
+        isFlipped = !isFlipped;
+        setDragTransition(true);
+        applyRotation(target);
+        flipInner.classList.toggle('flipped', isFlipped);
+      } else {
+        snapToNearest(currentAngle + delta * DRAG_SENSITIVITY);
+      }
+    }
+
+    // Biến chống ghost click trên mobile
+    // Trình duyệt mobile tự sinh mousedown/mouseup ~300ms sau touchend
+    // => gây lật 2 lần (360°). Dùng timestamp để bỏ qua.
+    let lastTouchEnd = 0;
+    const GHOST_CLICK_GUARD_MS = 500;
+
+    // Mouse events — bỏ qua nếu vừa có touch
+    flipInner.addEventListener('mousedown', (e) => {
+      if (Date.now() - lastTouchEnd < GHOST_CLICK_GUARD_MS) return; // ghost click
+      e.preventDefault();
+      onDragStart(e.clientX);
+    });
+    window.addEventListener('mousemove', (e) => {
+      if (isDragging) { e.preventDefault(); onDragMove(e.clientX); }
+    });
+    window.addEventListener('mouseup', (e) => {
+      if (Date.now() - lastTouchEnd < GHOST_CLICK_GUARD_MS) return; // ghost click
+      onDragEnd(e.clientX);
+    });
+
+    // Touch events
+    flipInner.addEventListener('touchstart', (e) => {
+      onDragStart(e.touches[0].clientX);
+    }, { passive: true });
+    flipInner.addEventListener('touchmove', (e) => {
+      if (isDragging) onDragMove(e.touches[0].clientX);
+    }, { passive: true });
+    flipInner.addEventListener('touchend', (e) => {
+      lastTouchEnd = Date.now(); // ghi lại thời điểm kết thúc touch
+      onDragEnd(e.changedTouches[0].clientX);
+    });
+
+    // download removed
+  </script>
+<script>
+  (function() {
+    var current = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.r71-nav a, .r71-mobile-menu a').forEach(function(a) {
+      if (a.getAttribute('href') === current) a.classList.add('active');
+    });
+    var btn = document.getElementById('r71HamburgerBtn');
+    var menu = document.getElementById('r71MobileMenu');
+    if (btn && menu) {
+      btn.addEventListener('click', function() {
+        var isOpen = menu.classList.toggle('open');
+        btn.textContent = isOpen ? '✕' : '☰';
+      });
+    }
+  })();
+</script>
+</body>
+
+</html>
