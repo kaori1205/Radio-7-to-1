@@ -104,6 +104,20 @@
       flex-direction: column;
     }
     .rc-label { font-size: 9px; letter-spacing: 3px; opacity: .45; margin-bottom: 14px; }
+
+    /* khối tiêu đề: tên bài / nghệ sĩ căn trái, ảnh bìa album căn phải */
+    .rc-head { display: flex; align-items: flex-start; justify-content: space-between; gap: clamp(10px, 3vw, 14px); }
+    .rc-head-text { flex: 1; min-width: 0; }
+    .rc-album-art {
+      width: clamp(64px, 22vw, 110px);
+      aspect-ratio: 1 / 1;
+      flex-shrink: 0;
+      border-radius: 8px; border: 1.5px solid rgba(18,54,133,.3);
+      object-fit: cover; background: var(--blue-light);
+      opacity: 0; transform: scale(.92); transition: opacity .4s ease, transform .4s ease;
+    }
+    .rc-album-art.show { opacity: 1; transform: scale(1); }
+
     .rc-title { font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: clamp(16px,4.2vw,22px); letter-spacing: .5px; line-height: 1.5; margin-bottom: 14px; min-height: 1.5em; position: relative; isolation: isolate; z-index: 1; }
     .rc-title.glitching > .char,
     .rc-title.glitching > .caret { opacity: 0; }
@@ -308,8 +322,13 @@
   <div class="page">
     <div class="radio-shell">
       <div class="result-panel" id="resultPanel">
-        <p class="rc-title" id="rcTitle"></p>
-        <p class="rc-artist" id="rcArtist"></p>
+        <div class="rc-head">
+          <div class="rc-head-text">
+            <p class="rc-title" id="rcTitle"></p>
+            <p class="rc-artist" id="rcArtist"></p>
+          </div>
+          <img class="rc-album-art" id="rcAlbumArt" src="" alt="Ảnh bìa album" />
+        </div>
         <div class="rc-divider" id="rcDivider"></div>
         <p class="rc-msg-label" id="rcMsgLabel">// LỜI NHẮN TỪ ĐÀI //</p>
         <p class="rc-msg" id="rcMsg"></p>
@@ -336,6 +355,21 @@
   </div>
 
 <script>
+  // ════════════════════════════════════════════════════════════
+  //  ẢNH BÌA ALBUM — CHỈ CẦN SỬA Ở ĐÂY, MỌI BÀI THUỘC ALBUM ĐÓ
+  //  SẼ TỰ CẬP NHẬT ẢNH THEO, KHÔNG CẦN SỬA TỪNG BÀI.
+  // ════════════════════════════════════════════════════════════
+  //
+  //  Khóa (bên trái dấu :) phải khớp CHÍNH XÁC với chữ trong
+  //  trường "album" của bài hát bên dưới (phân biệt hoa/thường).
+  //  Muốn thêm album mới: thêm 1 dòng nữa theo đúng mẫu.
+  //
+  const albumCovers = {
+    "THĂNG": "https://placehold.co/200x200/123685/fbf8f2?font=roboto-mono&text=TH%C4%82NG"
+  };
+  // Ảnh dùng khi bài hát không có "album" khớp với danh sách trên
+  const DEFAULT_COVER = "https://placehold.co/200x200/123685/fbf8f2?text=R71";
+
   // ════════════════════════════════════════════════════════════
   //  DANH SÁCH BÀI HÁT — CHỈ CẦN SỬA Ở ĐÂY ĐỂ THÊM/SỬA NỘI DUNG
   // ════════════════════════════════════════════════════════════
@@ -394,6 +428,7 @@
   const statusText = document.getElementById('statusText');
   const rcTitle = document.getElementById('rcTitle');
   const rcArtist = document.getElementById('rcArtist');
+  const rcAlbumArt = document.getElementById('rcAlbumArt');
   const rcDivider = document.getElementById('rcDivider');
   const rcMsgLabel = document.getElementById('rcMsgLabel');
   const rcMsg = document.getElementById('rcMsg');
@@ -435,6 +470,7 @@
     rcMsgLabel.classList.remove('show');
     rcMsg.classList.remove('show');
     rcArtist.classList.remove('show');
+    rcAlbumArt.classList.remove('show');
     rcLink.classList.remove('show');
     rcTitle.classList.remove('glitching');
     rcTitle.textContent = '';
@@ -471,6 +507,8 @@
           rcTitle.classList.add('glitching');
           rcArtist.textContent = pick.album ? (pick.artist + ' - Album ' + pick.album) : pick.artist;
           rcArtist.classList.add('show');
+          rcAlbumArt.src = (pick.album && albumCovers[pick.album]) || DEFAULT_COVER;
+          rcAlbumArt.classList.add('show');
 
           // BƯỚC 4: chuyển trạng thái "bắt được tín hiệu"
           statusText.innerHTML = '<span class="status-dot"></span>BẮT ĐƯỢC TÍN HIỆU';
