@@ -162,12 +162,15 @@
       transition: opacity .4s ease;
     }
     .rc-artist.show { opacity: .5; }
-    .rc-divider { position: relative; z-index: 2; height: 3px; background: repeating-linear-gradient(90deg,var(--blue) 0,var(--blue) 4px,transparent 4px,transparent 9px); opacity: 0; margin: 14px 0; transition: opacity .4s ease; }
-    .rc-divider.show { opacity: .4; }
+    .rc-divider { position: relative; z-index: 2; height: 0; border-top: 2px dashed var(--blue); opacity: 0; margin: 14px 0; transition: opacity .4s ease; }
+    .rc-divider.show { opacity: .45; }
     .rc-msg-label { font-size: 9px; letter-spacing: 3px; opacity: 0; margin-bottom: 10px; transition: opacity .4s ease; }
     .rc-msg-label.show { opacity: .4; }
     .rc-msg { font-size: 12px; letter-spacing: 1px; line-height: 1.85; opacity: 0; text-align: left; transition: opacity .4s ease; }
     .rc-msg.show { opacity: .8; }
+    .rc-link { display: inline-block; font-size: 10px; letter-spacing: 1px; margin-top: 16px; padding: 6px 14px; border: 1px dashed var(--blue); border-radius: 20px; color: var(--blue); text-decoration: none; opacity: 0; transition: opacity .4s ease; }
+    .rc-link.show { opacity: .85; }
+    .rc-link:active { opacity: 1; background: var(--blue-light); }
     .rc-meta { display: flex; justify-content: space-between; font-size: 9px; letter-spacing: 2px; opacity: .4; margin-top: 18px; }
 
     /* dial */
@@ -305,10 +308,11 @@
     <div class="radio-shell">
       <div class="result-panel" id="resultPanel">
         <p class="rc-title" id="rcTitle"></p>
-        <p class="rc-artist" id="rcArtist">UPRIZE - Album THĂNG</p>
+        <p class="rc-artist" id="rcArtist"></p>
         <div class="rc-divider" id="rcDivider"></div>
         <p class="rc-msg-label" id="rcMsgLabel">// LỜI NHẮN TỪ ĐÀI //</p>
         <p class="rc-msg" id="rcMsg"></p>
+        <a class="rc-link" id="rcLink" href="#" target="_blank" rel="noopener noreferrer">→ Nghe bài này</a>
       </div>
 
       <div class="dial-window">
@@ -331,17 +335,47 @@
   </div>
 
 <script>
-  // ── Album THĂNG — UPRIZE ──
-  // Sửa "msg" để đổi lời nhắn cho từng bài.
+  // ════════════════════════════════════════════════════════════
+  //  DANH SÁCH BÀI HÁT — CHỈ CẦN SỬA Ở ĐÂY ĐỂ THÊM/SỬA NỘI DUNG
+  // ════════════════════════════════════════════════════════════
+  //
+  //  Mỗi bài hát là MỘT khối { } trong dấu ngoặc nhọn, các khối
+  //  cách nhau bằng dấu phẩy (,). Các trường gồm:
+  //
+  //    title  : Tên bài hát                         (bắt buộc)
+  //    artist : Tên ca sĩ / nhóm nhạc                (bắt buộc)
+  //    album  : Tên album                            (để "" nếu không có)
+  //    msg    : Lời nhắn từ đài                      (bắt buộc)
+  //    link   : Link nghe bài (Spotify, YouTube...)  (để "" nếu không có)
+  //
+  //  LƯU Ý:
+  //   - Mỗi dòng phải đặt nội dung trong dấu ngoặc kép "..."
+  //   - Nếu trong câu có dấu ngoặc kép " thì đổi dấu ngoặc bao
+  //     ngoài câu đó thành dấu nháy đơn '...' để tránh lỗi.
+  //   - Bài cuối cùng trong danh sách KHÔNG có dấu phẩy sau dấu }
+  //
+  //  VÍ DỤ THÊM 1 BÀI MỚI:
+  //  { title: "Tên bài mới", artist: "Ca sĩ mới", album: "Tên album mới",
+  //    msg: "Lời nhắn của bạn ở đây.", link: "https://open.spotify.com/..." },
+  //
+  // ════════════════════════════════════════════════════════════
   const tracks = [
-    { title: "*127#", msg: "Tín hiệu đầu tiên đã được kết nối. Cảm ơn bạn vì đã bắt sóng ngay từ những giây mở đầu — hành trình của THĂNG bắt đầu từ đây." },
-    { title: "UMBALA", msg: "Một giai điệu giàu năng lượng để nhắc bạn rằng, dù hôm nay có mệt đến đâu, vẫn còn một nhịp đập đang chờ bạn bứt phá." },
-    { title: "chính là cảm giác này", msg: "Cảm giác được đồng hành cùng nhau từ những ngày đầu tiên, chính là điều quý giá nhất mà UPRIZE muốn giữ mãi." },
-    { title: "crazy, stupid, love", msg: "Yêu đôi khi chẳng cần lý do. Hãy để bài này đồng hành cùng bạn trong những phút giây hơi 'khùng' một chút vì ai đó." },
-    { title: "First Dance (Mải mê)", msg: "Có những khoảnh khắc ta chỉ muốn mải mê, quên hết xung quanh và đắm mình trong một điệu nhảy của riêng mình." },
-    { title: "EXposure", msg: "Đứng giữa ánh sáng không dễ, nhưng đó là lúc bản thân thật sự được nhìn thấy. Hãy toả sáng theo cách của riêng bạn." },
-    { title: "Ngay Và Luôn", msg: "Đừng chờ đợi thời điểm hoàn hảo. Nếu có điều gì muốn làm, muốn nói — hãy làm ngay và luôn, ngay lúc này." },
-    { title: "THĂNG", msg: "Thật và Ảo, đâu mới là chính mình? THĂNG là hành trình định hình bản thể — và đôi khi, câu trả lời nằm ở chính việc dám cất tiếng hát." }
+    { title: "*127#", artist: "UPRIZE", album: "THĂNG",
+      msg: "Tín hiệu đầu tiên đã được kết nối. Cảm ơn bạn vì đã bắt sóng ngay từ những giây mở đầu — hành trình của THĂNG bắt đầu từ đây.", link: "" },
+    { title: "UMBALA", artist: "UPRIZE", album: "THĂNG",
+      msg: "Một giai điệu giàu năng lượng để nhắc bạn rằng, dù hôm nay có mệt đến đâu, vẫn còn một nhịp đập đang chờ bạn bứt phá.", link: "" },
+    { title: "chính là cảm giác này", artist: "UPRIZE", album: "THĂNG",
+      msg: "Cảm giác được đồng hành cùng nhau từ những ngày đầu tiên, chính là điều quý giá nhất mà UPRIZE muốn giữ mãi.", link: "" },
+    { title: "crazy, stupid, love", artist: "UPRIZE", album: "THĂNG",
+      msg: "Yêu đôi khi chẳng cần lý do. Hãy để bài này đồng hành cùng bạn trong những phút giây hơi 'khùng' một chút vì ai đó.", link: "" },
+    { title: "First Dance (Mải mê)", artist: "UPRIZE", album: "THĂNG",
+      msg: "Có những khoảnh khắc ta chỉ muốn mải mê, quên hết xung quanh và đắm mình trong một điệu nhảy của riêng mình.", link: "" },
+    { title: "EXposure", artist: "UPRIZE", album: "THĂNG",
+      msg: "Đứng giữa ánh sáng không dễ, nhưng đó là lúc bản thân thật sự được nhìn thấy. Hãy toả sáng theo cách của riêng bạn.", link: "" },
+    { title: "Ngay Và Luôn", artist: "UPRIZE", album: "THĂNG",
+      msg: "Đừng chờ đợi thời điểm hoàn hảo. Nếu có điều gì muốn làm, muốn nói — hãy làm ngay và luôn, ngay lúc này.", link: "" },
+    { title: "THĂNG", artist: "UPRIZE", album: "THĂNG",
+      msg: "Thật và Ảo, đâu mới là chính mình? THĂNG là hành trình định hình bản thể — và đôi khi, câu trả lời nằm ở chính việc dám cất tiếng hát.", link: "" }
   ];
 
   const freqReadout = document.getElementById('freqReadout');
@@ -354,6 +388,7 @@
   const rcDivider = document.getElementById('rcDivider');
   const rcMsgLabel = document.getElementById('rcMsgLabel');
   const rcMsg = document.getElementById('rcMsg');
+  const rcLink = document.getElementById('rcLink');
 
   function randFreq() {
     return (Math.random() * (108 - 88) + 88).toFixed(1);
@@ -391,6 +426,7 @@
     rcMsgLabel.classList.remove('show');
     rcMsg.classList.remove('show');
     rcArtist.classList.remove('show');
+    rcLink.classList.remove('show');
     rcTitle.classList.remove('glitching');
     rcTitle.textContent = '';
     rcMsg.textContent = '';
@@ -424,6 +460,7 @@
           // hiệu ứng glitch cắt lát ngang, lặp lại theo chu kỳ khi tên bài đang hiển thị
           rcTitle.setAttribute('data-text', pick.title);
           rcTitle.classList.add('glitching');
+          rcArtist.textContent = pick.album ? (pick.artist + ' - Album ' + pick.album) : pick.artist;
           rcArtist.classList.add('show');
 
           // BƯỚC 4: chuyển trạng thái "bắt được tín hiệu"
@@ -438,6 +475,16 @@
             setTimeout(() => {
               rcMsg.textContent = pick.msg;
               rcMsg.classList.add('show');
+
+              // BƯỚC 7: nếu bài hát có link thì hiện nút "Nghe bài này"
+              if (pick.link) {
+                rcLink.href = pick.link;
+                rcLink.style.display = 'inline-block';
+                setTimeout(() => rcLink.classList.add('show'), 250);
+              } else {
+                rcLink.style.display = 'none';
+              }
+
               tuneBtn.disabled = false;
             }, 450);
           }, 350);
