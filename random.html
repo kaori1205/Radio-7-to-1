@@ -162,10 +162,10 @@
       transition: opacity .4s ease;
     }
     .rc-artist.show { opacity: .5; }
-    .rc-divider { height: 1px; background: repeating-linear-gradient(90deg,var(--blue) 0,var(--blue) 3px,transparent 3px,transparent 7px); opacity: .2; margin: 14px 0; display: none; }
-    .rc-divider.show { display: block; }
-    .rc-msg-label { font-size: 9px; letter-spacing: 3px; opacity: .4; margin-bottom: 10px; display: none; }
-    .rc-msg-label.show { display: block; }
+    .rc-divider { height: 3px; background: repeating-linear-gradient(90deg,var(--blue) 0,var(--blue) 4px,transparent 4px,transparent 9px); opacity: 0; margin: 14px 0; transition: opacity .4s ease; }
+    .rc-divider.show { opacity: .3; }
+    .rc-msg-label { font-size: 9px; letter-spacing: 3px; opacity: 0; margin-bottom: 10px; transition: opacity .4s ease; }
+    .rc-msg-label.show { opacity: .4; }
     .rc-msg { font-size: 12px; letter-spacing: 1px; line-height: 1.85; opacity: 0; text-align: left; transition: opacity .4s ease; }
     .rc-msg.show { opacity: .8; }
     .rc-meta { display: flex; justify-content: space-between; font-size: 9px; letter-spacing: 2px; opacity: .4; margin-top: 18px; }
