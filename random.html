@@ -156,6 +156,12 @@
       0% { background: var(--blue); color: var(--cream); }
       100% { background: transparent; color: var(--blue); }
     }
+    .rc-artist {
+      font-size: 9px; letter-spacing: 2px; opacity: 0;
+      margin-bottom: 14px; margin-top: -8px;
+      transition: opacity .4s ease;
+    }
+    .rc-artist.show { opacity: .5; }
     .rc-divider { height: 1px; background: repeating-linear-gradient(90deg,var(--blue) 0,var(--blue) 3px,transparent 3px,transparent 7px); opacity: .2; margin: 14px 0; display: none; }
     .rc-divider.show { display: block; }
     .rc-msg-label { font-size: 9px; letter-spacing: 3px; opacity: .4; margin-bottom: 10px; display: none; }
@@ -295,6 +301,7 @@
     <div class="radio-shell">
       <div class="result-panel" id="resultPanel">
         <p class="rc-title" id="rcTitle"></p>
+        <p class="rc-artist" id="rcArtist">UPRIZE - Album THĂNG</p>
         <div class="rc-divider" id="rcDivider"></div>
         <p class="rc-msg-label" id="rcMsgLabel">// LỜI NHẮN TỪ ĐÀI //</p>
         <p class="rc-msg" id="rcMsg"></p>
@@ -339,6 +346,7 @@
   const tuneKnob = document.getElementById('tuneKnob');
   const statusText = document.getElementById('statusText');
   const rcTitle = document.getElementById('rcTitle');
+  const rcArtist = document.getElementById('rcArtist');
   const rcDivider = document.getElementById('rcDivider');
   const rcMsgLabel = document.getElementById('rcMsgLabel');
   const rcMsg = document.getElementById('rcMsg');
@@ -378,6 +386,7 @@
     rcDivider.classList.remove('show');
     rcMsgLabel.classList.remove('show');
     rcMsg.classList.remove('show');
+    rcArtist.classList.remove('show');
     rcTitle.classList.remove('glitching');
     rcTitle.textContent = '';
     rcMsg.textContent = '';
@@ -411,6 +420,7 @@
           // hiệu ứng glitch cắt lát ngang, lặp lại theo chu kỳ khi tên bài đang hiển thị
           rcTitle.setAttribute('data-text', pick.title);
           rcTitle.classList.add('glitching');
+          rcArtist.classList.add('show');
 
           // BƯỚC 4: chuyển trạng thái "bắt được tín hiệu"
           statusText.innerHTML = '<span class="status-dot"></span>BẮT ĐƯỢC TÍN HIỆU';
