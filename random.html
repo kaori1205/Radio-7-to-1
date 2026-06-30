@@ -223,12 +223,16 @@
     .status-row {
       display: flex; justify-content: space-between; align-items: center;
       margin-top: 16px; padding: 0 2px;
-      font-size: 9px; letter-spacing: 2px; color: rgba(251,248,242,.55);
+      font-size: clamp(7px, 2.1vw, 9px); letter-spacing: 1.4px; color: rgba(251,248,242,.55);
     }
     .status-dot {
       display: inline-block; width: 6px; height: 6px; border-radius: 50%;
       background: #5fe89a; box-shadow: 0 0 5px rgba(95,232,154,.7);
       margin-right: 5px; animation: pulse 2s ease-in-out infinite;
+    }
+    @media (max-width: 480px) {
+      .status-row { font-size: 7px; letter-spacing: .8px; }
+      .status-dot { width: 5px; height: 5px; margin-right: 4px; }
     }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
 
