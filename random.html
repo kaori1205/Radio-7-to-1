@@ -51,7 +51,7 @@
     /* ── HEADER ── */
     .r71-header { background: var(--cream); border-bottom: 1.5px dotted rgba(18,54,133,.25); position: sticky; top: 0; z-index: 100; width: 100%; }
     .r71-header::before { content: ''; display: block; height: 3px; background: repeating-linear-gradient(90deg, var(--blue) 0, var(--blue) 4px, transparent 4px, transparent 9px); opacity: .25; }
-    .r71-header-inner { max-width: 1100px; margin: 0 auto; padding: 0 clamp(14px, 4vw, 32px); display: flex; align-items: center; justify-content: space-between; height: 52px; }
+    .r71-header-inner { max-width: 100%; margin: 0; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 52px; }
     .r71-logo { font-family: 'Retro Computer','Press Start 2P',sans-serif; font-size: 13px; letter-spacing: 1px; color: var(--blue); text-decoration: none; line-height: 1; font-weight: 400; flex-shrink: 0; }
     .r71-logo span { font-size: 9px; letter-spacing: 3px; opacity: .45; display: block; margin-top: 2px; font-family: 'Space Mono', monospace; }
     .r71-nav { display: flex; align-items: center; gap: 2px; }
@@ -68,6 +68,7 @@
     .r71-mobile-menu a:last-child { border-bottom: none; }
     .r71-mobile-menu a:hover, .r71-mobile-menu a.active { opacity: 1; }
     .r71-mobile-menu a.active { font-weight: 700; }
+    .r71-mobile-menu a .r71-micon { min-width: 20px; }
     @media (max-width: 480px) {
       .r71-nav { display: none !important; }
       .r71-hamburger { display: block !important; }
