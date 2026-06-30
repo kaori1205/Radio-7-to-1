@@ -104,7 +104,7 @@
       flex-direction: column;
     }
     .rc-label { font-size: 9px; letter-spacing: 3px; opacity: .45; margin-bottom: 14px; }
-    .rc-title { font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: clamp(16px,4.2vw,22px); letter-spacing: .5px; line-height: 1.5; margin-bottom: 14px; min-height: 1.5em; position: relative; }
+    .rc-title { font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: clamp(16px,4.2vw,22px); letter-spacing: .5px; line-height: 1.5; margin-bottom: 14px; min-height: 1.5em; position: relative; isolation: isolate; z-index: 1; }
     .rc-title.glitching > .char,
     .rc-title.glitching > .caret { opacity: 0; }
     .rc-title.glitching::before,
@@ -162,8 +162,8 @@
       transition: opacity .4s ease;
     }
     .rc-artist.show { opacity: .5; }
-    .rc-divider { height: 3px; background: repeating-linear-gradient(90deg,var(--blue) 0,var(--blue) 4px,transparent 4px,transparent 9px); opacity: 0; margin: 14px 0; transition: opacity .4s ease; }
-    .rc-divider.show { opacity: .3; }
+    .rc-divider { position: relative; z-index: 2; height: 3px; background: repeating-linear-gradient(90deg,var(--blue) 0,var(--blue) 4px,transparent 4px,transparent 9px); opacity: 0; margin: 14px 0; transition: opacity .4s ease; }
+    .rc-divider.show { opacity: .4; }
     .rc-msg-label { font-size: 9px; letter-spacing: 3px; opacity: 0; margin-bottom: 10px; transition: opacity .4s ease; }
     .rc-msg-label.show { opacity: .4; }
     .rc-msg { font-size: 12px; letter-spacing: 1px; line-height: 1.85; opacity: 0; text-align: left; transition: opacity .4s ease; }
