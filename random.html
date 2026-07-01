@@ -106,6 +106,13 @@
     }
     .rc-label { font-size: 9px; letter-spacing: 3px; opacity: .45; margin-bottom: 14px; }
 
+    /* thanh cuộn mảnh, đồng bộ màu với giao diện */
+    .result-panel::-webkit-scrollbar { width: 6px; }
+    .result-panel::-webkit-scrollbar-track { background: transparent; }
+    .result-panel::-webkit-scrollbar-thumb { background: rgba(18,54,133,.25); border-radius: 10px; }
+    .result-panel::-webkit-scrollbar-thumb:hover { background: rgba(18,54,133,.4); }
+    .result-panel { scrollbar-width: thin; scrollbar-color: rgba(18,54,133,.25) transparent; }
+
     /* khối tiêu đề: tên bài / nghệ sĩ căn trái, ảnh bìa album căn phải */
     .rc-head { display: flex; align-items: flex-start; justify-content: space-between; gap: clamp(10px, 3vw, 14px); }
     .rc-head-text { flex: 1; min-width: 0; }
@@ -173,10 +180,16 @@
     }
     .rc-artist {
       font-size: 9px; letter-spacing: 2px; opacity: 0;
-      margin-bottom: 14px; margin-top: -8px;
+      margin-top: -8px;
       transition: opacity .4s ease;
     }
     .rc-artist.show { opacity: .5; }
+    .rc-album {
+      font-size: 9px; letter-spacing: 2px; opacity: 0;
+      margin-bottom: 14px; margin-top: 4px;
+      transition: opacity .4s ease;
+    }
+    .rc-album.show { opacity: .5; }
     .rc-divider { position: relative; z-index: 2; height: 0; border-top: 2px dashed var(--blue); opacity: 0; margin: 14px 0; transition: opacity .4s ease; }
     .rc-divider.show { opacity: .45; }
     .rc-msg-label { font-size: 9px; letter-spacing: 3px; opacity: 0; margin-bottom: 10px; transition: opacity .4s ease; }
@@ -327,6 +340,7 @@
           <div class="rc-head-text">
             <p class="rc-title" id="rcTitle"></p>
             <p class="rc-artist" id="rcArtist"></p>
+            <p class="rc-album" id="rcAlbum"></p>
           </div>
           <img class="rc-album-art" id="rcAlbumArt" src="" alt="Ảnh bìa album" />
         </div>
@@ -429,6 +443,7 @@
   const statusText = document.getElementById('statusText');
   const rcTitle = document.getElementById('rcTitle');
   const rcArtist = document.getElementById('rcArtist');
+  const rcAlbum = document.getElementById('rcAlbum');
   const rcAlbumArt = document.getElementById('rcAlbumArt');
   const rcDivider = document.getElementById('rcDivider');
   const rcMsgLabel = document.getElementById('rcMsgLabel');
@@ -449,6 +464,8 @@
     rcTitle.appendChild(caret);
     let i = 0;
     const chars = text.split('');
+    // tên bài càng dài thì gõ càng nhanh, để không mất quá nhiều thời gian
+    const speed = chars.length > 8 ? Math.max(80, 170 - (chars.length - 8) * 5) : 170;
     const typer = setInterval(() => {
       const span = document.createElement('span');
       span.className = 'char flash';
@@ -460,7 +477,7 @@
         caret.remove();
         if (onDone) onDone();
       }
-    }, 170);
+    }, speed);
   }
 
   tuneBtn.addEventListener('click', function () {
@@ -471,6 +488,7 @@
     rcMsgLabel.classList.remove('show');
     rcMsg.classList.remove('show');
     rcArtist.classList.remove('show');
+    rcAlbum.classList.remove('show');
     rcAlbumArt.classList.remove('show');
     rcLink.classList.remove('show');
     rcTitle.classList.remove('glitching');
@@ -506,8 +524,10 @@
           // hiệu ứng glitch cắt lát ngang, lặp lại theo chu kỳ khi tên bài đang hiển thị
           rcTitle.setAttribute('data-text', pick.title);
           rcTitle.classList.add('glitching');
-          rcArtist.textContent = pick.album ? (pick.artist + ' - Album ' + pick.album) : pick.artist;
+          rcArtist.textContent = pick.artist;
           rcArtist.classList.add('show');
+          rcAlbum.textContent = pick.album ? ('Album ' + pick.album) : '';
+          rcAlbum.classList.add('show');
           rcAlbumArt.src = (pick.album && albumCovers[pick.album]) || DEFAULT_COVER;
           rcAlbumArt.classList.add('show');
 
