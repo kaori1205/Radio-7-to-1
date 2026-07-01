@@ -59,6 +59,13 @@
       display: flex; align-items: center; justify-content: center;
       position: relative; overflow: hidden;
     }
+    .host-img-wrap .host-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: relative;
+  z-index: 2;
+}
     .host-img-wrap::before {
       content: ''; position: absolute; inset: 0;
       background: repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(18,54,133,.03) 8px, rgba(18,54,133,.03) 9px);
@@ -206,8 +213,9 @@
     <div class="host-grid">
       <!-- CARD 1 -->
       <!-- CARD 1 -->
+      <div class="host-card">
       <div class="host-img-wrap">
-        <img src="images/profile-thang/1-bex.png" alt="BEX" class="host-img"></div>
+        <img class="host-img" src="images/profile-thang/1-bex.png" alt="BEX"></div>
         <div class="host-info">
           <p class="host-name">BEX</p>
           <p class="host-desc">Bạch Hồng Cường</p>
@@ -216,7 +224,8 @@
       </div>
       <!-- CARD 2 -->
       <div class="host-card">
-        <div class="host-img-wrap"><span class="img-label">IMG</span></div>
+        <div class="host-img-wrap">
+        <img class="host-img" src="images/profile-thang/2-wonbi.png" alt="WONBI"></div>
         <div class="host-info">
           <p class="host-name">WONBI</p>
           <p class="host-desc">Lê Phạm Minh Quân</p>
@@ -225,7 +234,8 @@
       </div>
       <!-- CARD 3 -->
       <div class="host-card">
-        <div class="host-img-wrap"><span class="img-label">IMG</span></div>
+        <div class="host-img-wrap">
+        <img class="host-img" src="images/profile-thang/3-leon.png" alt="LEON"></div>
         <div class="host-info">
           <p class="host-name">LEON</p>
           <p class="host-desc">Tạ Hoàng Long</p>
@@ -234,7 +244,8 @@
       </div>
       <!-- CARD 4 -->
       <div class="host-card">
-        <div class="host-img-wrap"><span class="img-label">IMG</span></div>
+        <div class="host-img-wrap">
+        <img class="host-img" src="images/profile-thang/4-dylan.png" alt="DYLAN"></div>
         <div class="host-info">
           <p class="host-name">DYLAN</p>
           <p class="host-desc">Lê Duy Lân</p>
@@ -243,7 +254,8 @@
       </div>
       <!-- CARD 5 -->
       <div class="host-card">
-        <div class="host-img-wrap"><span class="img-label">IMG</span></div>
+        <div class="host-img-wrap">
+        <img class="host-img" src="images/profile-thang/5-o.d.png" alt="O.D"></div>
         <div class="host-info">
           <p class="host-name">O.D</p>
           <p class="host-desc">Đặng Đức Duy</p>
@@ -252,7 +264,8 @@
       </div>
       <!-- CARD 6 -->
       <div class="host-card">
-        <div class="host-img-wrap"><span class="img-label">IMG</span></div>
+        <div class="host-img-wrap">
+        <img class="host-img" src="images/profile-thang/6-lavm.png" alt="LAVM"></div>
         <div class="host-info">
           <p class="host-name">LAVM</p>
           <p class="host-desc">Nguyễn Lâm Anh</p>
@@ -261,7 +274,8 @@
       </div>
       <!-- CARD 7 -->
       <div class="host-card">
-        <div class="host-img-wrap"><span class="img-label">IMG</span></div>
+        <div class="host-img-wrap">
+        <img class="host-img" src="images/profile-thang/7-pn.png" alt="PN"></div>
         <div class="host-info">
           <p class="host-name">PN</p>
           <p class="host-desc">Nguyễn Thanh Phúc Nguyên</p>
