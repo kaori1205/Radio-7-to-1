@@ -113,20 +113,38 @@
     .result-panel::-webkit-scrollbar-thumb:hover { background: rgba(18,54,133,.4); }
     .result-panel { scrollbar-width: thin; scrollbar-color: rgba(18,54,133,.25) transparent; }
 
-    /* khối tiêu đề: tên bài nằm trên cùng, hàng dưới gồm nghệ sĩ/album bên trái, ảnh bìa album bên phải */
-    .rc-head { display: block; }
-    .rc-head-row { display: flex; align-items: flex-start; justify-content: space-between; gap: clamp(10px, 3vw, 14px); }
-    .rc-head-text { flex: 1; min-width: 0; }
+    /* khối tiêu đề — mặc định (điện thoại/màn hình nhỏ): ảnh bìa nằm dưới tên bài, ngang hàng nghệ sĩ/album */
+    .rc-head {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-areas:
+        "title title"
+        "text  art";
+      column-gap: clamp(10px, 3vw, 14px);
+    }
+    .rc-title { grid-area: title; }
+    .rc-head-text { grid-area: text; min-width: 0; }
     .rc-album-art {
+      grid-area: art;
+      align-self: start;
       width: clamp(48px, 16vw, 76px);
       aspect-ratio: 1 / 1;
-      flex-shrink: 0;
       margin-top: -6px;
       border-radius: 8px; border: 1.5px solid rgba(18,54,133,.3);
       object-fit: cover; background: var(--blue-light);
       opacity: 0; transform: scale(.92); transition: opacity .4s ease, transform .4s ease;
     }
     .rc-album-art.show { opacity: 1; transform: scale(1); }
+
+    /* màn hình lớn (PC/tablet): ảnh bìa chuyển lên ngang hàng với tên bài, kéo dài xuống hết khối chữ */
+    @media (min-width: 641px) {
+      .rc-head {
+        grid-template-areas:
+          "title art"
+          "text  art";
+      }
+      .rc-album-art { align-self: start; margin-top: 0; }
+    }
 
     .rc-title { font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: clamp(16px,4.2vw,22px); letter-spacing: .5px; line-height: 1.5; margin-bottom: 20px; min-height: 1.5em; position: relative; isolation: isolate; z-index: 1; }
     .rc-title.glitching > .char,
@@ -342,13 +360,11 @@
       <div class="result-panel" id="resultPanel">
         <div class="rc-head">
           <p class="rc-title" id="rcTitle"></p>
-          <div class="rc-head-row">
-            <div class="rc-head-text">
-              <p class="rc-artist" id="rcArtist"></p>
-              <p class="rc-album" id="rcAlbum"></p>
-            </div>
-            <img class="rc-album-art" id="rcAlbumArt" src="" alt="Ảnh bìa album" />
+          <div class="rc-head-text">
+            <p class="rc-artist" id="rcArtist"></p>
+            <p class="rc-album" id="rcAlbum"></p>
           </div>
+          <img class="rc-album-art" id="rcAlbumArt" src="" alt="Ảnh bìa album" />
         </div>
         <div class="rc-divider" id="rcDivider"></div>
         <p class="rc-msg-label" id="rcMsgLabel">// LỜI NHẮN TỪ ĐÀI //</p>
