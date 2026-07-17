@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RADIO 7 TO 1 — Gallery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bad+Script&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/retro-computer" rel="stylesheet">
+  <style>
+    :root { --blue:#123685; --blue-deep:#0d2868; --cream:#fbf8f2; --white:#ffffff; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    html,body { min-height:100%; }
+    body {
+      background:var(--cream); color:var(--blue);
+      font-family:'Space Mono',monospace;
+      min-height:100vh; display:flex; flex-direction:column;
+      align-items:center; padding:0px 0 70px;
+    }
+    body::before {
+      content:''; position:fixed; inset:0;
+      background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(18,54,133,.015) 2px,rgba(18,54,133,.015) 4px);
+      pointer-events:none; z-index:999;
+    }
+    .page { width:100%; max-width:640px; padding:0 18px; }
+
+    /* back link */
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 10px; letter-spacing: 2px; color: var(--blue);
+      text-decoration: none; opacity: .55; transition: opacity .15s;
+      margin: 22px 0 18px;
+    }
+    .back-link:hover { opacity: 1; }
+
+    .gallery-header { text-align:center; margin-bottom:26px; }
+    .gallery-eyebrow { font-size:9px; letter-spacing:4px; opacity:.4; margin-bottom:10px; }
+    h1 {
+      font-family:'Retro Computer','Press Start 2P',sans-serif;
+      font-size:clamp(28px,8vw,46px); letter-spacing:1px; margin:0; line-height:1.3; font-weight:400;
+    }
+    .real-name { font-size:9px; letter-spacing:4px; opacity:.4; margin-top:2px; }
+
+    /* viewer */
+    .viewer {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 14px;
+    }
+    .viewer-img-wrap {
+      flex: 1; aspect-ratio: 1/1;
+      background: rgba(18,54,133,.06);
+      border: 2px dotted var(--blue); border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; position: relative;
+    }
+    .viewer-img { width:100%; height:100%; object-fit:cover; display:none; }
+    .viewer-img.show { display:block; }
+    .viewer-empty { font-size:10px; letter-spacing:3px; opacity:.3; font-family:'Space Mono',monospace; }
+
+    .viewer-nav {
+      flex-shrink: 0; width: 42px; height: 42px; border-radius: 50%;
+      border: none; background: var(--blue); color: var(--cream);
+      font-size: 19px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background .15s, opacity .15s;
+    }
+    .viewer-nav:hover { background: var(--blue-deep); }
+    .viewer-nav:disabled { opacity: .25; cursor: default; }
+    .viewer-nav:disabled:hover { background: var(--blue); }
+
+    .viewer-counter { text-align:center; font-size:10px; letter-spacing:2px; opacity:.5; margin-bottom: 30px; }
+
+    /* thumbnail strip */
+    .thumb-row { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-bottom:10px; }
+    .thumb {
+      width: 52px; height: 52px; border-radius: 8px; overflow: hidden;
+      border: 1.5px dotted rgba(18,54,133,.3); cursor: pointer;
+      opacity: .5; transition: opacity .15s, border-color .15s;
+      background: rgba(18,54,133,.05);
+    }
+    .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+    .thumb:hover { opacity: .8; }
+    .thumb.active { opacity: 1; border-color: var(--blue); border-style: solid; }
+
+    .not-found { text-align:center; font-size:11px; letter-spacing:1px; opacity:.6; margin-top:40px; }
+
+/* ── HEADER ── */
+.r71-header {
+  background: var(--cream);
+  border-bottom: 1.5px dotted rgba(18,54,133,.25);
+  position: sticky; top: 0; z-index: 100;
+  width: 100%;
+  align-self: stretch;
+}
+.r71-header::before {
+  content: '';
+  display: block; height: 3px;
+  background: repeating-linear-gradient(90deg, var(--blue) 0, var(--blue) 4px, transparent 4px, transparent 9px);
+  opacity: .25;
+}
+.r71-header-inner {
+  max-width: 100%; margin: 0;
+  padding: 0 32px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 52px;
+}
+.r71-logo {
+  font-family: 'Retro Computer','Press Start 2P',sans-serif;
+  font-size: 13px; letter-spacing: 1px; color: var(--blue);
+  text-decoration: none; line-height: 1; font-weight: 400;
+  flex-shrink: 0;
+}
+.r71-logo span {
+  font-size: 9px; letter-spacing: 3px; opacity: .45;
+  display: block; margin-top: 2px; font-family: 'Space Mono', monospace;
+}
+.r71-nav { display: flex; align-items: center; gap: 2px; }
+.r71-nav a {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: 2px;
+  color: var(--blue); text-decoration: none;
+  padding: 6px 11px; border-radius: 20px;
+  opacity: .5; transition: all .15s; white-space: nowrap;
+}
+.r71-nav a:hover { opacity: 1; background: rgba(18,54,133,.07); }
+.r71-nav a.active { opacity: 1; background: var(--blue); color: var(--cream); }
+.r71-nav a.r71-ticket {
+  background: var(--blue); color: var(--cream);
+  opacity: 1; margin-left: 6px; padding: 6px 13px;
+}
+.r71-nav a.r71-ticket:hover { background: var(--blue-deep); }
+.r71-nav a.r71-ticket.active { background: var(--blue-deep); }
+.r71-hamburger {
+  display: none;
+  background: none; border: 1.5px dotted rgba(18,54,133,.4);
+  border-radius: 8px; padding: 6px 9px; cursor: pointer;
+  color: var(--blue); font-size: 14px; line-height: 1;
+  font-family: 'Space Mono', monospace;
+}
+.r71-mobile-menu {
+  display: none;
+  background: var(--white);
+  border-bottom: 1.5px dotted rgba(18,54,133,.2);
+  padding: 8px 18px 12px;
+}
+.r71-mobile-menu.open { display: block; }
+.r71-mobile-menu a {
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px; letter-spacing: 2px;
+  color: var(--blue); text-decoration: none;
+  padding: 11px 8px;
+  border-bottom: 1px dotted rgba(18,54,133,.12);
+  opacity: .6; transition: opacity .12s;
+}
+.r71-mobile-menu a:last-child { border-bottom: none; }
+.r71-mobile-menu a:hover, .r71-mobile-menu a.active { opacity: 1; }
+.r71-mobile-menu a.active { font-weight: 700; }
+.r71-mobile-menu a .r71-micon { min-width: 20px; }
+@media (max-width: 480px) {
+  .r71-nav { display: none !important; }
+  .r71-hamburger { display: block !important; }
+}
+
+  </style>
+</head>
+<body>
+
+<header class="r71-header">
+  <div class="r71-header-inner">
+    <a href="index.html" class="r71-logo">
+      RADIO 7 TO 1
+      <span>SINCE 2026</span>
+    </a>
+    <nav class="r71-nav">
+      <a href="index.html">HOME</a>
+      <a href="schedule.html">SCHEDULE</a>
+      <a href="host.html">HOST</a>
+      <a href="about.html">ABOUT</a>
+      <a href="random.html">RANDOM</a>
+      <a href="fm-01.html" class="r71-ticket">TICKET FM01</a>
+    </nav>
+    <button class="r71-hamburger" id="r71HamburgerBtn" aria-label="Mở menu">☰</button>
+  </div>
+  <nav class="r71-mobile-menu" id="r71MobileMenu">
+    <a href="index.html">HOME</a>
+    <a href="schedule.html">SCHEDULE</a>
+    <a href="host.html">HOST</a>
+    <a href="about.html">ABOUT</a>
+    <a href="random.html">RANDOM</a>
+    <a href="fm-01.html" class="r71-ticket">TICKET FM01</a>
+  </nav>
+</header>
+
+  <div class="page">
+    <a href="host.html" class="back-link">← QUAY LẠI HOST</a>
+
+    <div class="gallery-header" id="galleryHeader">
+      <div class="gallery-eyebrow">// GALLERY //</div>
+      <h1 id="hostAlias">—</h1>
+      <p class="real-name" id="hostRealName"></p>
+    </div>
+
+    <div id="viewerSection">
+      <div class="viewer">
+        <button class="viewer-nav" id="viewerPrev" aria-label="Ảnh trước">‹</button>
+        <div class="viewer-img-wrap">
+          <img class="viewer-img" id="viewerImg" src="" alt="" />
+          <span class="viewer-empty" id="viewerEmpty">CHƯA CÓ ẢNH</span>
+        </div>
+        <button class="viewer-nav" id="viewerNext" aria-label="Ảnh sau">›</button>
+      </div>
+      <div class="viewer-counter" id="viewerCounter"></div>
+      <div class="thumb-row" id="thumbRow"></div>
+    </div>
+  </div>
+
+<script>
+  // ════════════════════════════════════════════════════════════
+  //  GALLERY ẢNH THEO TỪNG HOST — HƯỚNG DẪN THÊM ẢNH
+  // ════════════════════════════════════════════════════════════
+  //
+  //  BƯỚC 1 — Đưa ảnh lên nơi có link truy cập được:
+  //   - Nếu có sẵn thư mục web: tạo thư mục "images/", ví dụ
+  //     images/bex/1.jpg, images/wonbi/1.jpg ...
+  //   - Nếu chưa có hosting: upload lên Imgur / Cloudinary / Google
+  //     Drive (để chế độ public) rồi lấy LINK ẢNH TRỰC TIẾP — link
+  //     phải kết thúc bằng .jpg/.png/.webp..., không phải link mở
+  //     trang xem ảnh.
+  //
+  //  BƯỚC 2 — Điền link vào mảng "images" của đúng người bên dưới:
+  //   - Key ("BEX", "WONBI"...) phải khớp CHÍNH XÁC với phần ?host=
+  //     trong link ở host.html (ví dụ href="gallery.html?host=BEX"
+  //     thì key ở đây là "BEX"), không sai chính tả, không lệch
+  //     hoa/thường.
+  //   - Mỗi ảnh là MỘT chuỗi trong dấu ngoặc kép "...", các ảnh cách
+  //     nhau bằng dấu phẩy. Số lượng ảnh mỗi người không giới hạn.
+  //   - Để trống [] nếu người đó chưa có ảnh — trang sẽ tự hiện
+  //     chữ "CHƯA CÓ ẢNH" thay vì bị lỗi vỡ hình.
+  //
+  //  VÍ DỤ:
+  //  "BEX": { name: "Bạch Hồng Cường", date: "23/06/2000", images: [
+  //    "images/bex/1.jpg",
+  //    "images/bex/2.jpg",
+  //    "images/bex/3.jpg"
+  //  ] },
+  //
+  // ════════════════════════════════════════════════════════════
+  const hostData = {
+    "BEX":   { name: "Bạch Hồng Cường",        date: "23/06/2000", images: [] },
+    "WONBI": { name: "Lê Phạm Minh Quân",       date: "09/09/2002", images: [] },
+    "LEON":  { name: "Tạ Hoàng Long",           date: "22/01/2003", images: [] },
+    "DYLAN": { name: "Lê Duy Lân",              date: "30/04/2003", images: [] },
+    "O.D":   { name: "Đặng Đức Duy",            date: "23/07/2005", images: [] },
+    "LAVM":  { name: "Nguyễn Lâm Anh",          date: "21/10/2005", images: [] },
+    "PN":    { name: "Nguyễn Thanh Phúc Nguyên", date: "12/12/2005", images: [] }
+  };
+
+  const hostAliasEl    = document.getElementById('hostAlias');
+  const hostRealNameEl = document.getElementById('hostRealName');
+  const viewerSection  = document.getElementById('viewerSection');
+  const viewerImg      = document.getElementById('viewerImg');
+  const viewerEmpty    = document.getElementById('viewerEmpty');
+  const viewerCounter  = document.getElementById('viewerCounter');
+  const viewerPrev     = document.getElementById('viewerPrev');
+  const viewerNext     = document.getElementById('viewerNext');
+  const thumbRow       = document.getElementById('thumbRow');
+
+  let images = [];
+  let currentIndex = 0;
+
+  function renderViewer() {
+    if (images.length === 0) {
+      viewerImg.classList.remove('show');
+      viewerImg.src = '';
+      viewerEmpty.style.display = 'block';
+      viewerCounter.textContent = '';
+      viewerPrev.disabled = true;
+      viewerNext.disabled = true;
+      thumbRow.innerHTML = '';
+      return;
+    }
+    viewerEmpty.style.display = 'none';
+    viewerImg.src = images[currentIndex];
+    viewerImg.classList.add('show');
+    viewerCounter.textContent = (currentIndex + 1) + ' / ' + images.length;
+    viewerPrev.disabled = images.length <= 1;
+    viewerNext.disabled = images.length <= 1;
+
+    thumbRow.innerHTML = '';
+    images.forEach(function(src, i) {
+      var t = document.createElement('div');
+      t.className = 'thumb' + (i === currentIndex ? ' active' : '');
+      var img = document.createElement('img');
+      img.src = src;
+      img.alt = '';
+      t.appendChild(img);
+      t.addEventListener('click', function() {
+        currentIndex = i;
+        renderViewer();
+      });
+      thumbRow.appendChild(t);
+    });
+  }
+
+  function init() {
+    var params = new URLSearchParams(window.location.search);
+    var hostKey = params.get('host');
+    var data = hostKey ? hostData[hostKey] : null;
+
+    if (!data) {
+      hostAliasEl.textContent = 'KHÔNG TÌM THẤY';
+      hostRealNameEl.textContent = '';
+      viewerSection.style.display = 'none';
+      return;
+    }
+
+    hostAliasEl.textContent = hostKey;
+    hostRealNameEl.textContent = data.name;
+    images = data.images || [];
+    currentIndex = 0;
+    renderViewer();
+  }
+
+  viewerPrev.addEventListener('click', function() {
+    if (!images.length) return;
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    renderViewer();
+  });
+  viewerNext.addEventListener('click', function() {
+    if (!images.length) return;
+    currentIndex = (currentIndex + 1) % images.length;
+    renderViewer();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowLeft') viewerPrev.click();
+    if (e.key === 'ArrowRight') viewerNext.click();
+  });
+
+  init();
+</script>
+<script>
+  (function() {
+    var current = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.r71-nav a, .r71-mobile-menu a').forEach(function(a) {
+      if (a.getAttribute('href') === current) a.classList.add('active');
+    });
+    var btn = document.getElementById('r71HamburgerBtn');
+    var menu = document.getElementById('r71MobileMenu');
+    if (btn && menu) {
+      btn.addEventListener('click', function() {
+        var isOpen = menu.classList.toggle('open');
+        btn.textContent = isOpen ? '✕' : '☰';
+      });
+    }
+  })();
+</script>
+</body>
+</html>
