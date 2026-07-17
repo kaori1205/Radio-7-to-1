@@ -106,47 +106,47 @@
     }
     .rc-label { font-size: 9px; letter-spacing: 3px; opacity: .45; margin-bottom: 14px; }
 
-    /* thanh cuộn mảnh, đồng bộ màu với giao diện */
-    .result-panel::-webkit-scrollbar { width: 6px; }
-    .result-panel::-webkit-scrollbar-track { background: transparent; }
-    .result-panel::-webkit-scrollbar-thumb { background: rgba(18,54,133,.25); border-radius: 10px; }
-    .result-panel::-webkit-scrollbar-thumb:hover { background: rgba(18,54,133,.4); }
-    .result-panel { scrollbar-width: thin; scrollbar-color: rgba(18,54,133,.25) transparent; }
-
-    /* khối tiêu đề — mặc định (điện thoại/màn hình nhỏ): ảnh bìa nằm dưới tên bài, ngang hàng nghệ sĩ/album */
-    .rc-head {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      grid-template-areas:
-        "title title"
-        "text  art";
-      column-gap: clamp(10px, 3vw, 14px);
-    }
-    .rc-title { grid-area: title; }
-    .rc-head-text { grid-area: text; min-width: 0; }
-    .rc-album-art {
-      grid-area: art;
-      align-self: start;
-      width: clamp(48px, 16vw, 76px);
+    /* khối tiêu đề: tên bài / nghệ sĩ căn trái, ảnh bìa album căn phải */
+    .rc-head { display: flex; align-items: flex-start; justify-content: space-between; gap: clamp(10px, 3vw, 14px); }
+    .rc-head-text { flex: 1; min-width: 0; }
+    .rc-art-wrap {
+      position: relative;
+      width: clamp(64px, 22vw, 100px);
       aspect-ratio: 1 / 1;
-      margin-top: -6px;
+      flex-shrink: 0;
+    }
+    .rc-album-art {
+      width: 100%; height: 100%;
+      display: block;
       border-radius: 8px; border: 1.5px solid rgba(18,54,133,.3);
       object-fit: cover; background: var(--blue-light);
       opacity: 0; transform: scale(.92); transition: opacity .4s ease, transform .4s ease;
     }
     .rc-album-art.show { opacity: 1; transform: scale(1); }
 
-    /* màn hình lớn (PC/tablet): ảnh bìa chuyển lên ngang hàng với tên bài, kéo dài xuống hết khối chữ */
-    @media (min-width: 641px) {
-      .rc-head {
-        grid-template-areas:
-          "title art"
-          "text  art";
-      }
-      .rc-album-art { align-self: start; margin-top: 0; width: clamp(76px, 12vw, 120px); }
+    /* nút play/pause đè lên góc dưới-phải ảnh bìa */
+    .rc-play-btn {
+      position: absolute;
+      right: -6px; bottom: -6px;
+      width: clamp(28px, 8vw, 34px); height: clamp(28px, 8vw, 34px);
+      border-radius: 50%;
+      border: none;
+      background: var(--blue);
+      color: var(--cream);
+      font-size: clamp(10px, 3vw, 12px);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      opacity: 0; transform: scale(.8);
+      transition: opacity .3s ease, transform .3s ease, background .15s ease;
+      padding: 0; line-height: 1;
+      box-shadow: 0 2px 0 rgba(18,54,133,.25);
+      pointer-events: none;
     }
+    .rc-play-btn.show { opacity: 1; transform: scale(1); pointer-events: auto; }
+    .rc-play-btn:hover { background: var(--blue-deep); }
+    .rc-play-btn:active { transform: scale(.92); }
 
-    .rc-title { font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: clamp(16px,4.2vw,22px); letter-spacing: .5px; line-height: 1.5; margin-bottom: 20px; min-height: 1.5em; position: relative; isolation: isolate; z-index: 1; }
+    .rc-title { font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: clamp(16px,4.2vw,22px); letter-spacing: .5px; line-height: 1.5; margin-bottom: 14px; min-height: 1.5em; position: relative; isolation: isolate; z-index: 1; }
     .rc-title.glitching > .char,
     .rc-title.glitching > .caret { opacity: 0; }
     .rc-title.glitching::before,
@@ -200,27 +200,16 @@
     }
     .rc-artist {
       font-size: 9px; letter-spacing: 2px; opacity: 0;
-      margin-top: -8px; margin-bottom: 6px;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      margin-bottom: 14px; margin-top: -8px;
       transition: opacity .4s ease;
     }
     .rc-artist.show { opacity: .5; }
-    .rc-album {
-      font-size: 9px; letter-spacing: 2px; opacity: 0;
-      margin-bottom: 14px; margin-top: 6px;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-      transition: opacity .4s ease;
-    }
-    .rc-album.show { opacity: .5; }
     .rc-divider { position: relative; z-index: 2; height: 0; border-top: 2px dashed var(--blue); opacity: 0; margin: 14px 0; transition: opacity .4s ease; }
     .rc-divider.show { opacity: .45; }
     .rc-msg-label { font-size: 9px; letter-spacing: 3px; opacity: 0; margin-bottom: 10px; transition: opacity .4s ease; }
     .rc-msg-label.show { opacity: .4; }
     .rc-msg { font-size: 12px; letter-spacing: 1px; line-height: 1.85; opacity: 0; text-align: left; transition: opacity .4s ease; }
     .rc-msg.show { opacity: .8; }
-    .rc-link { display: inline-block; font-size: 10px; letter-spacing: 1px; margin-top: 16px; padding: 6px 14px; border: 1px dashed var(--blue); border-radius: 20px; color: var(--blue); text-decoration: none; opacity: 0; transition: opacity .4s ease; }
-    .rc-link.show { opacity: .85; }
-    .rc-link:active { opacity: 1; background: var(--blue-light); }
     .rc-meta { display: flex; justify-content: space-between; font-size: 9px; letter-spacing: 2px; opacity: .4; margin-top: 18px; }
 
     /* dial */
@@ -319,6 +308,20 @@
     .tune-btn:active { transform: scale(.97); }
     .tune-btn:disabled { opacity: .5; cursor: default; }
 
+    /* khung nhúng YouTube — ẩn hẳn khỏi giao diện, chỉ dùng để phát âm thanh nền,
+       điều khiển bật/tắt qua nút play cạnh ảnh bìa album */
+    .rc-player-wrap {
+      position: absolute;
+      width: 1px; height: 1px;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .rc-player-wrap #rcPlayerFrame,
+    .rc-player-wrap iframe {
+      width: 1px; height: 1px; border: 0;
+    }
+
     /* RESULT (đã chuyển vào result-panel trong radio-shell) */
   </style>
 </head>
@@ -359,17 +362,21 @@
     <div class="radio-shell">
       <div class="result-panel" id="resultPanel">
         <div class="rc-head">
-          <p class="rc-title" id="rcTitle"></p>
           <div class="rc-head-text">
+            <p class="rc-title" id="rcTitle"></p>
             <p class="rc-artist" id="rcArtist"></p>
-            <p class="rc-album" id="rcAlbum"></p>
           </div>
-          <img class="rc-album-art" id="rcAlbumArt" src="" alt="Ảnh bìa album" />
+          <div class="rc-art-wrap">
+            <img class="rc-album-art" id="rcAlbumArt" src="" alt="Ảnh bìa album" />
+            <button class="rc-play-btn" id="rcPlayBtn" type="button" aria-label="Phát">▶</button>
+          </div>
+        </div>
+        <div class="rc-player-wrap" id="rcPlayerWrap">
+          <div id="rcPlayerFrame"></div>
         </div>
         <div class="rc-divider" id="rcDivider"></div>
         <p class="rc-msg-label" id="rcMsgLabel">// LỜI NHẮN TỪ ĐÀI //</p>
         <p class="rc-msg" id="rcMsg"></p>
-        <a class="rc-link" id="rcLink" href="#" target="_blank" rel="noopener noreferrer">→ Nghe bài này</a>
       </div>
 
       <div class="dial-window">
@@ -391,6 +398,7 @@
     </div>
   </div>
 
+<script src="https://www.youtube.com/iframe_api"></script>
 <script>
   // ════════════════════════════════════════════════════════════
   //  ẢNH BÌA ALBUM — CHỈ CẦN SỬA Ở ĐÂY, MỌI BÀI THUỘC ALBUM ĐÓ
@@ -446,16 +454,16 @@
      link: "https://www.youtube.com/watch?v=4Bn_5AOmhuo" },
     { title: "First Dance (Mải mê)", artist: "UPRIZE", album: "THĂNG",
       msg: "Có những khoảnh khắc ta chỉ muốn mải mê, quên hết xung quanh và đắm mình trong một điệu nhảy của riêng mình.", 
-     link: "" },
+     link: "https://www.youtube.com/watch?v=GAK371lhPlk" },
     { title: "EXposure", artist: "UPRIZE", album: "THĂNG",
       msg: "Đứng giữa ánh sáng không dễ, nhưng đó là lúc bản thân thật sự được nhìn thấy. Hãy toả sáng theo cách của riêng bạn.", 
      link: "https://www.youtube.com/watch?v=t3X2SnfFmvg&list=OLAK5uy_mu5rcWwSuPzy6OeEEgDEFMPmbAvMVjsb8&index=5" },
     { title: "Ngay Và Luôn", artist: "UPRIZE", album: "THĂNG",
       msg: "Đừng chờ đợi thời điểm hoàn hảo. Nếu có điều gì muốn làm, muốn nói — hãy làm ngay và luôn, ngay lúc này.", 
-     link: "" },
+     link: "https://www.youtube.com/watch?v=GjMhp3KKruM" },
     { title: "THĂNG", artist: "UPRIZE", album: "THĂNG",
       msg: "Thật và Ảo, đâu mới là chính mình? THĂNG là hành trình định hình bản thể — và đôi khi, câu trả lời nằm ở chính việc dám cất tiếng hát.", 
-     link: "" }
+     link: "https://www.youtube.com/watch?v=SS9GzAxVoow" }
   ];
 
   const freqReadout = document.getElementById('freqReadout');
@@ -465,12 +473,98 @@
   const statusText = document.getElementById('statusText');
   const rcTitle = document.getElementById('rcTitle');
   const rcArtist = document.getElementById('rcArtist');
-  const rcAlbum = document.getElementById('rcAlbum');
   const rcAlbumArt = document.getElementById('rcAlbumArt');
   const rcDivider = document.getElementById('rcDivider');
   const rcMsgLabel = document.getElementById('rcMsgLabel');
   const rcMsg = document.getElementById('rcMsg');
-  const rcLink = document.getElementById('rcLink');
+  const rcPlayerWrap = document.getElementById('rcPlayerWrap');
+  const rcPlayBtn = document.getElementById('rcPlayBtn');
+
+  // ════════════════════════════════════════════════════════════
+  //  TRÌNH PHÁT YOUTUBE — tự động phát bài hát đang bắt được sóng
+  // ════════════════════════════════════════════════════════════
+  let ytPlayer = null;
+  let ytApiReady = false;
+  let pendingVideoId = null;
+
+  // Hàm này được YouTube IFrame API tự gọi khi tải xong (tên bắt buộc, đừng đổi)
+  function onYouTubeIframeAPIReady() {
+    ytApiReady = true;
+    if (pendingVideoId) {
+      createOrLoadPlayer(pendingVideoId);
+      pendingVideoId = null;
+    }
+  }
+
+  // Lấy videoId từ link YouTube dạng watch?v=... hoặc dạng rút gọn youtu.be/...
+  function getYouTubeId(url) {
+    try {
+      const u = new URL(url);
+      const host = u.hostname.replace(/^www\./, '');
+      if (host === 'youtu.be') return u.pathname.slice(1) || null;
+      if (host === 'youtube.com' || host === 'm.youtube.com') {
+        return u.searchParams.get('v');
+      }
+    } catch (e) { /* link không hợp lệ hoặc không phải YouTube */ }
+    return null;
+  }
+
+  // Cập nhật icon nút play/pause theo trạng thái thực tế của player
+  function setPlayIcon(isPlaying) {
+    rcPlayBtn.textContent = isPlaying ? '❚❚' : '▶';
+    rcPlayBtn.setAttribute('aria-label', isPlaying ? 'Tạm dừng' : 'Phát');
+  }
+
+  function onPlayerStateChange(e) {
+    if (e.data === YT.PlayerState.PLAYING) setPlayIcon(true);
+    else if (e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED) setPlayIcon(false);
+  }
+
+  function createOrLoadPlayer(videoId) {
+    if (!ytApiReady) {
+      pendingVideoId = videoId;
+      return;
+    }
+    if (ytPlayer && typeof ytPlayer.loadVideoById === 'function') {
+      ytPlayer.loadVideoById(videoId);
+    } else {
+      ytPlayer = new YT.Player('rcPlayerFrame', {
+        videoId: videoId,
+        playerVars: { autoplay: 1, rel: 0, modestbranding: 1 },
+        events: {
+          onReady: function (e) { e.target.playVideo(); },
+          onStateChange: onPlayerStateChange
+        }
+      });
+    }
+  }
+
+  // Gọi hàm này khi đã "bắt được tín hiệu" một bài hát
+  function playTrackAudio(pick) {
+    const videoId = pick.link ? getYouTubeId(pick.link) : null;
+    if (videoId) {
+      rcPlayBtn.classList.add('show');
+      setPlayIcon(true);
+      createOrLoadPlayer(videoId);
+    } else {
+      // bài không có link YouTube hợp lệ -> không có gì để phát, ẩn nút play
+      rcPlayBtn.classList.remove('show');
+      if (ytPlayer && typeof ytPlayer.pauseVideo === 'function') {
+        try { ytPlayer.pauseVideo(); } catch (e) {}
+      }
+    }
+  }
+
+  // Bấm icon để bật/tắt nhạc đang phát
+  rcPlayBtn.addEventListener('click', function () {
+    if (!ytPlayer || typeof ytPlayer.getPlayerState !== 'function') return;
+    const state = ytPlayer.getPlayerState();
+    if (state === YT.PlayerState.PLAYING) {
+      ytPlayer.pauseVideo();
+    } else {
+      ytPlayer.playVideo();
+    }
+  });
 
   function randFreq() {
     return (Math.random() * (108 - 88) + 88).toFixed(1);
@@ -486,8 +580,6 @@
     rcTitle.appendChild(caret);
     let i = 0;
     const chars = text.split('');
-    // tên bài càng dài thì gõ càng nhanh, để không mất quá nhiều thời gian
-    const speed = chars.length > 8 ? Math.max(80, 170 - (chars.length - 8) * 5) : 170;
     const typer = setInterval(() => {
       const span = document.createElement('span');
       span.className = 'char flash';
@@ -499,7 +591,7 @@
         caret.remove();
         if (onDone) onDone();
       }
-    }, speed);
+    }, 170);
   }
 
   tuneBtn.addEventListener('click', function () {
@@ -510,9 +602,11 @@
     rcMsgLabel.classList.remove('show');
     rcMsg.classList.remove('show');
     rcArtist.classList.remove('show');
-    rcAlbum.classList.remove('show');
     rcAlbumArt.classList.remove('show');
-    rcLink.classList.remove('show');
+    rcPlayBtn.classList.remove('show');
+    if (ytPlayer && typeof ytPlayer.pauseVideo === 'function') {
+      try { ytPlayer.pauseVideo(); } catch (e) {}
+    }
     rcTitle.classList.remove('glitching');
     rcTitle.textContent = '';
     rcMsg.textContent = '';
@@ -546,16 +640,15 @@
           // hiệu ứng glitch cắt lát ngang, lặp lại theo chu kỳ khi tên bài đang hiển thị
           rcTitle.setAttribute('data-text', pick.title);
           rcTitle.classList.add('glitching');
-          rcArtist.textContent = pick.artist;
+          rcArtist.textContent = pick.album ? (pick.artist + ' - Album ' + pick.album) : pick.artist;
           rcArtist.classList.add('show');
-          rcAlbum.textContent = pick.album ? ('Album ' + pick.album) : '';
-          rcAlbum.classList.add('show');
           rcAlbumArt.src = (pick.album && albumCovers[pick.album]) || DEFAULT_COVER;
           rcAlbumArt.classList.add('show');
 
           // BƯỚC 4: chuyển trạng thái "bắt được tín hiệu"
           statusText.innerHTML = '<span class="status-dot"></span>BẮT ĐƯỢC TÍN HIỆU';
           rcDivider.classList.add('show');
+          playTrackAudio(pick);
 
           // BƯỚC 5: hiện "LỜI NHẮN TỪ ĐÀI" trước
           setTimeout(() => {
@@ -565,15 +658,6 @@
             setTimeout(() => {
               rcMsg.textContent = pick.msg;
               rcMsg.classList.add('show');
-
-              // BƯỚC 7: nếu bài hát có link thì hiện nút "Nghe bài này"
-              if (pick.link) {
-                rcLink.href = pick.link;
-                rcLink.style.display = 'inline-block';
-                setTimeout(() => rcLink.classList.add('show'), 250);
-              } else {
-                rcLink.style.display = 'none';
-              }
 
               tuneBtn.disabled = false;
             }, 450);
