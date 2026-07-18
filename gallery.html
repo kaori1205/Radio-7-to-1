@@ -334,6 +334,18 @@
   var currentImages = [];
   var currentIndex = 0;
 
+  // Xáo trộn ngẫu nhiên mảng ảnh (Fisher-Yates), không làm thay đổi mảng gốc
+  function shuffleArray(arr) {
+    var result = arr.slice();
+    for (var i = result.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = result[i];
+      result[i] = result[j];
+      result[j] = tmp;
+    }
+    return result;
+  }
+
   function renderGrid(images) {
     photoGrid.innerHTML = '';
     currentImages = images || [];
@@ -439,7 +451,7 @@
 
     hostAliasEl.textContent = hostKey;
     hostRealNameEl.textContent = data.name;
-    renderGrid(data.images || []);
+    renderGrid(shuffleArray(data.images || []));
   }
 
   init();
