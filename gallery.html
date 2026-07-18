@@ -217,17 +217,32 @@
   //    "images/bex/3.jpg"
   //  ] },
   //
+  //  LƯU Ý: dữ liệu ở đây TÁCH RIÊNG với data-img trong host.html —
+  //  sửa ở đây không ảnh hưởng ảnh hiện trên trang HOST, và ngược lại.
   // ════════════════════════════════════════════════════════════
   const hostData = {
-    "BEX":   { name: "Bạch Hồng Cường",        date: "23/06/2000", images: [] },
-    "WONBI": { name: "Lê Phạm Minh Quân",       date: "09/09/2002", images: [] },
-    "LEON":  { name: "Tạ Hoàng Long",           date: "22/01/2003", images: [] },
-    "DYLAN": { name: "Lê Duy Lân",              date: "30/04/2003", images: [] },
-    "O.D":   { name: "Đặng Đức Duy",            date: "23/07/2005", images: [] },
-    "LAVM":  { name: "Nguyễn Lâm Anh",          date: "21/10/2005", images: [] },
-    "PN":    { name: "Nguyễn Thanh Phúc Nguyên", date: "12/12/2005", images: [] }
+    "BEX":   { name: "Bạch Hồng Cường",        date: "23/06/2000", images: [
+      "images/1-bex/1.webp", "images/1-bex/2.webp", "images/1-bex/3.webp", "images/1-bex/4.webp", "images/1-bex/5.webp"
+    ] },
+    "WONBI": { name: "Lê Phạm Minh Quân",       date: "09/09/2002", images: [
+      "images/2-wonbi/1.webp", "images/2-wonbi/2.webp", "images/2-wonbi/3.webp", "images/2-wonbi/4.webp", "images/2-wonbi/5.webp"
+    ] },
+    "LEON":  { name: "Tạ Hoàng Long",           date: "22/01/2003", images: [
+      "images/3-leon/1.webp", "images/3-leon/2.webp", "images/3-leon/3.webp", "images/3-leon/4.webp", "images/3-leon/5.webp"
+    ] },
+    "DYLAN": { name: "Lê Duy Lân",              date: "30/04/2003", images: [
+      "images/4-dylan/1.webp", "images/4-dylan/2.webp", "images/4-dylan/3.webp", "images/4-dylan/4.webp", "images/4-dylan/5.webp"
+    ] },
+    "O.D":   { name: "Đặng Đức Duy",            date: "23/07/2005", images: [
+      "images/5-od/1.webp", "images/5-od/2.webp", "images/5-od/3.webp", "images/5-od/4.webp", "images/5-od/5.webp"
+    ] },
+    "LAVM":  { name: "Nguyễn Lâm Anh",          date: "21/10/2005", images: [
+      "images/6-lavm/1.webp", "images/6-lavm/2.webp", "images/6-lavm/3.webp", "images/6-lavm/4.webp", "images/6-lavm/5.webp"
+    ] },
+    "PN":    { name: "Nguyễn Thanh Phúc Nguyên", date: "12/12/2005", images: [
+      "images/7-pn/1.webp", "images/7-pn/2.webp", "images/7-pn/3.webp", "images/7-pn/4.webp", "images/7-pn/5.webp"
+    ] }
   };
-
   const hostAliasEl    = document.getElementById('hostAlias');
   const hostRealNameEl = document.getElementById('hostRealName');
   const viewerSection  = document.getElementById('viewerSection');
