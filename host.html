@@ -213,7 +213,7 @@
     <div class="host-grid">
       <!-- CARD 1 -->
       <a class="host-card" href="gallery.html?host=BEX">
-        <div class="host-img-wrap"><span class="img-label">IMG</span></div>
+        <div class="host-img-wrap" data-img="images/profile-thang/1-bex.png"><span class="img-label">IMG</span></div>
         <div class="host-info">
           <p class="host-name">BEX</p>
           <p class="host-desc">Bạch Hồng Cường</p>
@@ -222,7 +222,7 @@
       </a>
       <!-- CARD 2 -->
       <a class="host-card" href="gallery.html?host=WONBI">
-        <div class="host-img-wrap"><span class="img-label">IMG</span></div>
+        <div class="host-img-wrap" data-img="images/profile-thang/2-wonbi.png"><span class="img-label">IMG</span></div>
         <div class="host-info">
           <p class="host-name">WONBI</p>
           <p class="host-desc">Lê Phạm Minh Quân</p>
@@ -231,7 +231,7 @@
       </a>
       <!-- CARD 3 -->
       <a class="host-card" href="gallery.html?host=LEON">
-        <div class="host-img-wrap"><span class="img-label">IMG</span></div>
+        <div class="host-img-wrap" data-img="images/profile-thang/3-leon.png"><span class="img-label">IMG</span></div>
         <div class="host-info">
           <p class="host-name">LEON</p>
           <p class="host-desc">Tạ Hoàng Long</p>
@@ -240,7 +240,7 @@
       </a>
       <!-- CARD 4 -->
       <a class="host-card" href="gallery.html?host=DYLAN">
-        <div class="host-img-wrap"><span class="img-label">IMG</span></div>
+        <div class="host-img-wrap" data-img="images/profile-thang/4-dylan.png"><span class="img-label">IMG</span></div>
         <div class="host-info">
           <p class="host-name">DYLAN</p>
           <p class="host-desc">Lê Duy Lân</p>
@@ -249,7 +249,7 @@
       </a>
       <!-- CARD 5 -->
       <a class="host-card" href="gallery.html?host=O.D">
-        <div class="host-img-wrap"><span class="img-label">IMG</span></div>
+        <div class="host-img-wrap" data-img="images/profile-thang/5-od.png"><span class="img-label">IMG</span></div>
         <div class="host-info">
           <p class="host-name">O.D</p>
           <p class="host-desc">Đặng Đức Duy</p>
@@ -258,7 +258,7 @@
       </a>
       <!-- CARD 6 -->
       <a class="host-card" href="gallery.html?host=LAVM">
-        <div class="host-img-wrap"><span class="img-label">IMG</span></div>
+        <div class="host-img-wrap" data-img="images/profile-thang/6-lavm.png"><span class="img-label">IMG</span></div>
         <div class="host-info">
           <p class="host-name">LAVM</p>
           <p class="host-desc">Nguyễn Lâm Anh</p>
@@ -267,7 +267,7 @@
       </a>
       <!-- CARD 7 -->
       <a class="host-card" href="gallery.html?host=PN">
-        <div class="host-img-wrap"><span class="img-label">IMG</span></div>
+        <div class="host-img-wrap" data-img="images/profile-thang/7-pn.png"><span class="img-label">IMG</span></div>
         <div class="host-info">
           <p class="host-name">PN</p>
           <p class="host-desc">Nguyễn Thanh Phúc Nguyên</p>
@@ -277,6 +277,48 @@
     </div>
   </div>
 
+<script>
+  // ════════════════════════════════════════════════════════════
+  //  HƯỚNG DẪN GẮN ẢNH CHO TỪNG THÀNH VIÊN
+  // ════════════════════════════════════════════════════════════
+  //  Mỗi ô host bên trên có 1 div class="host-img-wrap" với thuộc
+  //  tính data-img="" — đây là chỗ bạn dán link ảnh vào.
+  //
+  //  Cách làm:
+  //   1. Đưa ảnh lên nơi có link truy cập được:
+  //      - Nếu có thư mục web: tạo thư mục "images/", ví dụ
+  //        images/bex.jpg, images/wonbi.jpg ...
+  //      - Nếu chưa có hosting: upload lên Imgur / Cloudinary /
+  //        Google Drive (để chế độ public) rồi lấy LINK ẢNH TRỰC
+  //        TIẾP — link phải kết thúc bằng .jpg/.png/.webp..., không
+  //        phải link mở trang xem ảnh.
+  //   2. Kéo lên phần HTML phía trên, tìm đúng ô host cần sửa
+  //      (tìm theo tên trong host-name, ví dụ BEX), rồi điền link
+  //      ảnh vào data-img="" của ô host-img-wrap ngay phía trên nó.
+  //
+  //      Trước khi sửa:
+  //      <div class="host-img-wrap" data-img="">
+  //
+  //      Sau khi sửa:
+  //      <div class="host-img-wrap" data-img="images/bex.jpg">
+  //
+  //   3. Lưu file. Ô nào có data-img sẽ tự hiện ảnh thay cho chữ
+  //      "IMG"; ô nào để trống vẫn giữ nguyên khung placeholder.
+  // ════════════════════════════════════════════════════════════
+  (function() {
+    document.querySelectorAll('.host-img-wrap').forEach(function(wrap) {
+      var src = wrap.getAttribute('data-img');
+      if (src && src.trim() !== '') {
+        wrap.innerHTML = '';
+        var img = document.createElement('img');
+        img.src = src;
+        img.alt = '';
+        img.style.cssText = 'width:100%;height:100%;object-fit:cover;position:relative;z-index:1;';
+        wrap.appendChild(img);
+      }
+    });
+  })();
+</script>
 <script>
   (function() {
     var current = window.location.pathname.split('/').pop() || 'index.html';
