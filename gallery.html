@@ -23,6 +23,9 @@
       pointer-events:none; z-index:999;
     }
     .page { width:100%; max-width:640px; padding:0 18px; }
+    @media (min-width:900px) {
+      .page { max-width:1600px; padding:0 32px; }
+    }
 
     /* back link */
     .back-link {
@@ -32,6 +35,9 @@
       margin: 22px 0 18px;
     }
     .back-link:hover { opacity: 1; }
+    @media (min-width:900px) {
+      .back-link { margin: 28px 0 22px; }
+    }
 
     .gallery-header { text-align:center; margin-bottom:26px; }
     .gallery-eyebrow { font-size:9px; letter-spacing:4px; opacity:.4; margin-bottom:10px; }
@@ -43,13 +49,13 @@
 
     /* photo grid — hiện tất cả ảnh cùng lúc, dạng masonry theo tỉ lệ gốc */
     .photo-grid {
-      column-count: 3;
-      column-gap: 10px;
+      column-width: 210px;
+      column-gap: 14px;
       margin-bottom: 30px;
     }
     .photo-item {
       break-inside: avoid;
-      margin-bottom: 10px;
+      margin-bottom: 14px;
       border: 2px dotted var(--blue); border-radius: 12px;
       overflow: hidden; background: rgba(18,54,133,.06);
       animation: fadeInUp .4s ease both;
@@ -61,7 +67,7 @@
       padding: 60px 0; font-family:'Space Mono',monospace;
     }
 
-    @media (max-width:480px) { .photo-grid { column-count: 2; } }
+    @media (max-width:480px) { .photo-grid { column-width: 150px; column-gap: 10px; } }
 
     .not-found { text-align:center; font-size:11px; letter-spacing:1px; opacity:.6; margin-top:40px; }
 
