@@ -40,16 +40,10 @@
       background: var(--white); border: 2px dotted var(--blue); border-radius: 14px;
       overflow: hidden; transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease, border-style .2s ease;
       animation: fadeInUp .5s ease both;
+      animation-delay: calc(var(--i, 0) * .07s);
       display: flex; flex-direction: column;
       cursor: pointer; text-decoration: none; color: inherit;
     }
-    .host-card:nth-child(1){animation-delay:.00s}
-    .host-card:nth-child(2){animation-delay:.07s}
-    .host-card:nth-child(3){animation-delay:.14s}
-    .host-card:nth-child(4){animation-delay:.21s}
-    .host-card:nth-child(5){animation-delay:.28s}
-    .host-card:nth-child(6){animation-delay:.35s}
-    .host-card:nth-child(7){animation-delay:.42s}
     .host-card:hover {
       transform: translateY(-6px);
       box-shadow: 0 12px 28px rgba(18,54,133,.18);
@@ -212,7 +206,7 @@
 
     <div class="host-grid">
       <!-- CARD 1 -->
-      <a class="host-card" href="gallery.html?host=BEX">
+      <a class="host-card" style="--i:0" href="gallery.html?host=BEX">
         <div class="host-img-wrap" data-img="images/profile-thang/1-bex.png"><span class="img-label">IMG</span></div>
         <div class="host-info">
           <p class="host-name">BEX</p>
@@ -221,7 +215,7 @@
         </div>
       </a>
       <!-- CARD 2 -->
-      <a class="host-card" href="gallery.html?host=WONBI">
+      <a class="host-card" style="--i:1" href="gallery.html?host=WONBI">
         <div class="host-img-wrap" data-img="images/profile-thang/2-wonbi.png"><span class="img-label">IMG</span></div>
         <div class="host-info">
           <p class="host-name">WONBI</p>
@@ -230,7 +224,7 @@
         </div>
       </a>
       <!-- CARD 3 -->
-      <a class="host-card" href="gallery.html?host=LEON">
+      <a class="host-card" style="--i:2" href="gallery.html?host=LEON">
         <div class="host-img-wrap" data-img="images/profile-thang/3-leon.png"><span class="img-label">IMG</span></div>
         <div class="host-info">
           <p class="host-name">LEON</p>
@@ -239,7 +233,7 @@
         </div>
       </a>
       <!-- CARD 4 -->
-      <a class="host-card" href="gallery.html?host=DYLAN">
+      <a class="host-card" style="--i:3" href="gallery.html?host=DYLAN">
         <div class="host-img-wrap" data-img="images/profile-thang/4-dylan.png"><span class="img-label">IMG</span></div>
         <div class="host-info">
           <p class="host-name">DYLAN</p>
@@ -248,7 +242,7 @@
         </div>
       </a>
       <!-- CARD 5 -->
-      <a class="host-card" href="gallery.html?host=O.D">
+      <a class="host-card" style="--i:4" href="gallery.html?host=O.D">
         <div class="host-img-wrap" data-img="images/profile-thang/5-od.png"><span class="img-label">IMG</span></div>
         <div class="host-info">
           <p class="host-name">O.D</p>
@@ -257,7 +251,7 @@
         </div>
       </a>
       <!-- CARD 6 -->
-      <a class="host-card" href="gallery.html?host=LAVM">
+      <a class="host-card" style="--i:5" href="gallery.html?host=LAVM">
         <div class="host-img-wrap" data-img="images/profile-thang/6-lavm.png"><span class="img-label">IMG</span></div>
         <div class="host-info">
           <p class="host-name">LAVM</p>
@@ -266,7 +260,7 @@
         </div>
       </a>
       <!-- CARD 7 -->
-      <a class="host-card" href="gallery.html?host=PN">
+      <a class="host-card" style="--i:6" href="gallery.html?host=PN">
         <div class="host-img-wrap" data-img="images/profile-thang/7-pn.png"><span class="img-label">IMG</span></div>
         <div class="host-info">
           <p class="host-name">PN</p>
@@ -275,7 +269,7 @@
         </div>
       </a>
       <!-- CARD 8 -->
-      <a class="host-card" href="gallery.html?host=UPRIZE">
+      <a class="host-card" style="--i:7" href="gallery.html?host=UPRIZE">
         <div class="host-img-wrap" data-img="images/profile-thang/0-uprize.png"><span class="img-label">IMG</span></div>
         <div class="host-info">
           <p class="host-name">UPRIZE</p>
